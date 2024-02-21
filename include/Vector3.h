@@ -32,3 +32,35 @@ inline float Vector3Norm (Vector3 a) ;
 inline float Vector3AngleBewteen (Vector3 a, Vector3 b) ;
 
 inline float Vector3Angle (Vector3 a) ;
+
+typedef struct Vector4
+{
+    float x;
+    float y;
+    float z;
+    float w;
+} Vector4;
+
+inline Vector4 Vector4Add (Vector4 a, Vector4 b) ;
+
+inline void Vector4AddEquals (Vector4 *a, Vector4 b) ;
+
+inline Vector4 Vector4Sub (Vector4 a, Vector4 b) ;
+
+inline void Vector4SubEquals (Vector4 *a, Vector4 b) ;
+
+inline Vector4 Vector4Mult (Vector4 a, Vector4 b) ;
+
+inline void Vector4MultEquals (Vector4 *a, Vector4 b) ;
+
+inline Vector4 Vector4Div (Vector4 a, Vector4 b) ;
+
+inline void Vector4DivEquals (Vector4 *a, Vector4 b) ;
+
+inline float Vector4DotProduct (Vector4 a, Vector4 b) ;
+
+inline float Vector4Norm (Vector4 a) ;
+
+inline float Vector4AngleBewteen (Vector4 a, Vector4 b) ;
+
+inline float Vector4Angle (Vector4 a) ;
