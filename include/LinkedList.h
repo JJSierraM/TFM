@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdio.h>
+#include "Array.h"
 
 typedef struct NodeSize_t
 {
@@ -30,6 +31,8 @@ void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) ;
 
 void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) ;
 
-size_t* LinkedListSize_tToArray(LinkedListSize_t *list) ;
-
 void LinkedListSize_tFree(LinkedListSize_t *list) ;
+
+ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) ;
+
+ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) ;

@@ -4,6 +4,9 @@
 #include "Vector3i.h"
 #include "Matrix.h"
 #include "LinkedList.h"
+#include "Sterographic.h"
+
+#define PI 3.14159265358979323846
 
 inline size_t nCr (size_t n, size_t r){
     size_t output = 1;
@@ -34,22 +37,22 @@ inline int PointInCircle (Vector2 a, Vector2 b, Vector2 c, Vector2 p) {
     return output >= 0.0;
 }
 
-inline Vector3i NextCombination(Vector3i prev_combination) {
-    Vector3i output;
+inline Vector3Size_t NextCombination (Vector3Size_t prev_combination) {
+    Vector3Size_t output;
     if (prev_combination.z+1 != prev_combination.y) {
-        output = Vector3iAdd(prev_combination, (Vector3i) {0, 0, 1});
+        output = Vector3Size_tAdd(prev_combination, (Vector3Size_t) {0, 0, 1});
     }
     else if (prev_combination.y+1 != prev_combination.x) {
-        output = Vector3iAdd(prev_combination, (Vector3i) {0, 1, -prev_combination.z});
+        output = Vector3Size_tAdd(prev_combination, (Vector3Size_t) {0, 1, -prev_combination.z});
     }
     else {
-        output = Vector3iAdd(prev_combination, (Vector3i) {1, 1-prev_combination.y, -prev_combination.z});
+        output = Vector3Size_tAdd(prev_combination, (Vector3Size_t) {1, 1-prev_combination.y, -prev_combination.z});
     }
     return output;
 }
 
-size_t* Triangulation2D(Vector2 *points, size_t n_points) {
-    Vector3i combination = (Vector3i) {2, 1, 0};
+ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
+    Vector3Size_t combination = (Vector3Size_t) {2, 1, 0};
     LinkedListSize_t indices = LinkedListSize_tNew();
     Vector2 a, b, c, d;
     size_t ok;
@@ -74,7 +77,66 @@ size_t* Triangulation2D(Vector2 *points, size_t n_points) {
         }
         combination = NextCombination(combination);
     }
-    size_t *output = LinkedListSize_tToArray(&indices);
-    LinkedListSize_tFree(&indices);
-    return output;
+    return LinkedListSize_tToArrayAndFree(&indices);
+}
+
+ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices) {
+    size_t n_tris = indices->size / 3;
+    float *angles = (float*) calloc(n_points, sizeof(float));
+    size_t prev, next;
+    Vector2 ab, ac;
+    float angle;
+
+    for (size_t i = 0; i < n_tris; i++) {
+        for (size_t j = 0; j < 3; j++) {
+            prev = j-1;
+            prev += 3 * (prev < 0);
+            next = (j+1) % 3;
+            ab = Vector2Sub(points[indices->array[3*i + prev]], points[indices->array[3*i + j]]);
+            ac = Vector2Sub(points[indices->array[3*i + next]], points[indices->array[3*i + j]]);
+            angle = fabsf(Vector2Angle(ac) - Vector2Angle(ab));
+            angle += 2*(PI-angle) * (angle > PI);
+            angles[indices->array[3*i + j]] += angle;
+        }
+    }
+    LinkedListSize_t rim_points = LinkedListSize_tNew();
+    for (size_t i = 0; i < n_points; i++) {
+        if (angles[i] < 2*PI-0.05) {
+            LinkedListSize_tAppend(&rim_points, i);
+        }
+    }
+    free(angles);
+    return LinkedListSize_tToArrayAndFree(&rim_points);
+}
+
+ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
+    LinkedListSize_t converted = LinkedListSize_tNew();
+    for (size_t i = 0; i < indices->size; i++) {
+        LinkedListSize_tAppend(&converted, conversion->array[indices->array[i]]);
+    }
+    return LinkedListSize_tToArrayAndFree(&converted);
+}
+
+ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
+    Vector2 *points_stero = SterographicProjectArray(points, n_points);
+    ArraySize_t indices = Triangulation2D(points_stero, n_points);
+
+    ArraySize_t final_points_indices = GetRimPoints(points_stero, n_points, &indices);
+    if (final_points_indices.size > 0) {
+        Vector3 *final_points = malloc(final_points_indices.size * sizeof(Vector3));
+        for (size_t i = 0; i < final_points_indices.size; i++) {
+            final_points[i] = points[final_points_indices.array[i]];
+        }
+        Vector2 *final_points_stero = SterographicProjectInvertedArray(final_points, final_points_indices.size);
+        ArraySize_t final_indices_pre = Triangulation2D(final_points_stero, final_points_indices.size);
+        ArraySize_t final_indices = convert_indices(&final_indices_pre, &final_points_indices);
+        indices = ArraySize_tAppendArrays(&indices, &final_indices);
+        ArraySize_tFree(&final_points);
+        free(final_points);
+        ArraySize_tFree(&final_indices_pre);
+        ArraySize_tFree(&final_indices);
+    }
+    free(points_stero);
+    ArraySize_tFree(&final_points_indices);
+    return indices;
 }

@@ -61,15 +61,6 @@ void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
     a->last = b->last;
 }
 
-size_t* LinkedListSize_tToArray(LinkedListSize_t *list) {
-    size_t *output = (size_t*) malloc(list->size * sizeof(size_t));
-    LinkedListSize_tGoFirst(list);
-    for (size_t i = 0; i < list->size; i++) {
-        output[i] = LinkedListSize_tNext(list);
-    }
-    return output;
-}
-
 void LinkedListSize_tFree(LinkedListSize_t *list) {
     LinkedListSize_tGoLast(list);
     LinkedListSize_tPrev(list);
@@ -79,4 +70,19 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
     }    
     free(list->current);
     free(list);
+}
+
+ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
+    ArraySize_t output = ArraySize_tNew(list->size);
+    LinkedListSize_tGoFirst(list);
+    for (size_t i = 0; i < list->size; i++) {
+        output.array[i] = LinkedListSize_tNext(list);
+    }
+    return output;
+}
+
+ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) {
+    ArraySize_t output = LinkedListSize_tToArray(list);
+    LinkedListSize_tFree(list);
+    return output;
 }
