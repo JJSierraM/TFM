@@ -1,8 +1,10 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "Vector2.h"
-#include "Vector3.h"
+#include "Vector.h"
+
+#ifndef MATRIX
+#define MATRIX
 
 typedef struct Matrix {
     size_t n;
@@ -37,3 +39,5 @@ void Matrix4x4SetRow(Matrix4x4 matrix, const size_t row, const Vector4 vector) ;
 void Matrix4x4SetCol(Matrix4x4 matrix, const size_t col, const Vector4 vector) ;
 
 float Matrix4x4Determinant(const Matrix4x4 matrix) ;
+
+#endif

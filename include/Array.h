@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#ifndef ARRAY
+#define ARRAY
 
 typedef struct ArraySize_t
 {
@@ -15,3 +19,5 @@ void ArraySize_tFree (ArraySize_t *array) ;
 ArraySize_t ArraySize_tAppendArrays (const ArraySize_t *a, const ArraySize_t *b) ;
 
 void ArraySize_tPrint(ArraySize_t *array) ;
+
+#endif

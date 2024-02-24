@@ -1,11 +1,5 @@
 #include "Matrix.h"
 
-typedef struct Matrix {
-    size_t n;
-    size_t m;
-    float *matrix;
-} Matrix;
-
 Matrix MatrixNew(const size_t n, const size_t m) {
     Matrix output;
     output.n = n;
@@ -21,7 +15,7 @@ void MatrixDestroy(Matrix *matrix) {
 
 float MatrixDeterminant(const Matrix *matrix) {
     float output = 0.0, diag;
-    size_t row, col;
+    int row, col;
 
     //Error handling
     if (matrix->n != matrix->m) {
@@ -50,10 +44,6 @@ float MatrixDeterminant(const Matrix *matrix) {
     }
     return output;
 }
-
-typedef float Matrix2x2[4];
-typedef float Matrix3x3[9];
-typedef float Matrix4x4[16];
 
 void Matrix2x2SetRow(Matrix2x2 matrix, const size_t row, const Vector2 vector) {
     if (row > 1) {
@@ -94,8 +84,8 @@ float Matrix2x2Determinant(const Matrix2x2 matrix) {
         #pragma unroll(2)
         for (size_t j = 0; j < 2; j++) {
             row = j;
-            col = 2 - (i+j);
-            col += 2 * (col < 0);
+            col = 1 - (i+j);
+            col += 2 * (col > 1);
             diag *= matrix[row * 2 + col];
         }
         output -= diag;
@@ -144,8 +134,8 @@ float Matrix3x3Determinant(const Matrix3x3 matrix) {
         #pragma unroll(3)
         for (size_t j = 0; j < 3; j++) {
             row = j;
-            col = 3 - (i+j);
-            col += 3 * (col < 0);
+            col = 2 - (i+j);
+            col += 3 * (col > 2);
             diag *= matrix[row * 3 + col];
         }
         output -= diag;
@@ -196,8 +186,8 @@ float Matrix4x4Determinant(const Matrix4x4 matrix) {
         #pragma unroll(4)
         for (size_t j = 0; j < 4; j++) {
             row = j;
-            col = 4 - (i+j);
-            col += 4 * (col < 0);
+            col = 3 - (i+j);
+            col += 4 * (col > 3);
             diag *= matrix[row * 4 + col];
         }
         output -= diag;

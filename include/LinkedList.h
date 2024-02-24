@@ -1,12 +1,15 @@
 #include <math.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include "Array.h"
+
+#ifndef LINKED_LIST
+#define LINKED_LIST
 
 typedef struct NodeSize_t
 {
     size_t value;
-    NodeSize_t *next;
-    NodeSize_t *prev;
+    void *next;
+    void *prev;
 } NodeSize_t;
 
 typedef struct LinkedListSize_t
@@ -36,3 +39,5 @@ void LinkedListSize_tFree(LinkedListSize_t *list) ;
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) ;
 
 ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) ;
+
+#endif

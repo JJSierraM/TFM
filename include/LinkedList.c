@@ -1,20 +1,5 @@
 #include "LinkedList.h"
 
-typedef struct NodeSize_t
-{
-    size_t value;
-    NodeSize_t *next;
-    NodeSize_t *prev;
-} NodeSize_t;
-
-typedef struct LinkedListSize_t
-{
-    size_t size;
-    NodeSize_t *current;
-    NodeSize_t *first;
-    NodeSize_t *last;
-} LinkedListSize_t;
-
 NodeSize_t *LinkedListSize_tGoFirst (LinkedListSize_t *linked_list) {
     linked_list->current = linked_list->first;
     return linked_list->current;
@@ -45,14 +30,19 @@ LinkedListSize_t LinkedListSize_tNew () {
 }
 
 void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) {
-    list->size++;
     NodeSize_t *node = (NodeSize_t*) malloc(sizeof(NodeSize_t));
     *node = (NodeSize_t) {
         value,
         NULL,
         list->last
     };
+    if (list->size == 0) {
+        list->first = node;
+        list->last = node;
+    }
+    list->last->next = node;
     list->last = node;
+    list->size++;
 }
 
 void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
@@ -69,14 +59,15 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
         LinkedListSize_tPrev(list);
     }    
     free(list->current);
-    free(list);
 }
 
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
     ArraySize_t output = ArraySize_tNew(list->size);
     LinkedListSize_tGoFirst(list);
-    for (size_t i = 0; i < list->size; i++) {
-        output.array[i] = LinkedListSize_tNext(list);
+    output.array[0] = list->current->value;
+    for (size_t i = 1; i < list->size; i++) {
+        LinkedListSize_tNext(list);
+        output.array[i] = list->current->value;
     }
     return output;
 }

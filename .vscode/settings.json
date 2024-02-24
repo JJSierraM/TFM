@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "matrix.h": "c",
+        "linkedlist.h": "c",
+        "triangulate.h": "c"
+    }
+}
