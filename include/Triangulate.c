@@ -57,8 +57,6 @@ ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices
             next = (j+1) % 3;
             ab = Vector2Sub(points[indices->array[3*i + prev]], points[indices->array[3*i + j]]);
             ac = Vector2Sub(points[indices->array[3*i + next]], points[indices->array[3*i + j]]);
-            float aab = Vector2Angle(ab);
-            float aac = Vector2Angle(ac);
             angle = fabsf(Vector2Angle(ac) - Vector2Angle(ab));
             angle += 2*(PI-angle) * (angle > PI);
             angles[indices->array[3*i + j]] += angle;
@@ -100,7 +98,7 @@ ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
         ArraySize_tFree(&final_indices_pre);
         ArraySize_tFree(&final_indices);
     }
-    free(points_stero);
+    // free(points_stero);
     ArraySize_tFree(&final_points_indices);
     return indices;
 }

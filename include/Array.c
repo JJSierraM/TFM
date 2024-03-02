@@ -34,10 +34,10 @@ ArraySize_t ArraySize_tAppendArrays (const ArraySize_t *a, const ArraySize_t *b)
 }
 
 void ArraySize_tPrint(ArraySize_t *array) {
-    printf("Array size: %u\n", array->size);
+    printf("Array size: %lu\n", array->size);
     printf("Array content: [\n");
     for (size_t i = 0; i < array->size; i++) {
-        printf(" %4u\n", array->array[i]);
+        printf(" %4lu\n", array->array[i]);
     }
     printf("]\n");
 }

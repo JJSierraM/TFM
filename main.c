@@ -1,5 +1,28 @@
 #include "include/Triangulate.h"
 
+Vector3 Sphr2Cart(const Vector3 point) {
+    Vector3 output;
+	output.x = point.x * sinf(point.y)*cosf(point.z);
+	output.y = point.x * sinf(point.y)*sinf(point.z);
+	output.z = point.x * cosf(point.y);
+    return output;
+}
+
+Vector3 *FibonacciVertices(size_t n_points) {
+    const float phi = 1.61803398875;
+    float x, y, theta, fi, theta_s, fi_s;
+    float residue;
+    Vector3 *output = (Vector3*) malloc(n_points * sizeof(Vector3));
+    for (size_t i = 0; i < n_points; i++) {
+        x = modff(i/phi, &residue);
+        y = 1.0 * i / (n_points);
+        theta = acosf(1-2*x);
+        fi = 2*PI*y;
+        output[i] = Sphr2Cart((Vector3) {1.0, theta, fi});
+    }
+    return output;
+}
+
 Vector3* IcosahedronVertices() {
     const float phi = 1.61803398875;
     Vector3 *vertices = (Vector3*) malloc(12 * sizeof(Vector3));
@@ -23,21 +46,13 @@ Vector3* IcosahedronVertices() {
 }
 
 int main() {
-    Vector3 *points = IcosahedronVertices();
-
-    // Vector2 a = (Vector2) {1,0};
-    // Vector2 b = (Vector2) {0,0};
-    // Vector2 c = (Vector2) {0,1};
-    // Vector2 d = (Vector2) {1.5,0.5};
-
-    // int rh = RightHand(a, b, c);
-    // int pic = PointInCircle(a, b, c, d);
-    // printf("Right hand? %d\n", rh);
-    // printf("Point in circle? %d\n", pic);
-
-    ArraySize_t indices = SphereTriangulate(points, 12);
+    // Vector3 *points = IcosahedronVertices();
+    const size_t vertices = 256;
+    Vector3 *points = FibonacciVertices(vertices);
+    
+    ArraySize_t indices = SphereTriangulate(points, vertices);
 
     ArraySize_tPrint(&indices);
-
+    // printf("%u\n",indices.size);
     return 0;
 }

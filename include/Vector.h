@@ -370,7 +370,7 @@ inline void Vector4SubEquals (Vector4 *a, Vector4 b) {
     a->x -= b.x;
     a->y -= b.y;
     a->z -= b.z;
-    a->w -+ b.w;
+    a->w -= b.w;
 }
 
 inline Vector4 Vector4Mult (Vector4 a, Vector4 b) {

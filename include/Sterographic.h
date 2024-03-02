@@ -6,7 +6,6 @@
 #define STEROGRAPHIC
 
 inline Vector2 SterographicProject (Vector3 point) {
-    // Vector2 output = (Vector2) {point.x/(1-point.z), point.y/(1-point.z)}; 
     return (Vector2) {point.x/(1-point.z), point.y/(1-point.z)};
 }
 
