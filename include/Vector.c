@@ -22,7 +22,7 @@ extern float Vector2DotProduct (Vector2 a, Vector2 b) ;
 
 extern float Vector2Norm (Vector2 a) ;
 
-extern float Vector2AngleBewteen (Vector2 a, Vector2 b) ;
+extern float Vector2AngleBetween (Vector2 a, Vector2 b) ;
 
 extern float Vector2Angle (Vector2 a) ;
 
@@ -48,7 +48,7 @@ extern int Vector2iDotProduct (Vector2i a, Vector2i b) ;
 
 extern float Vector2iNorm (Vector2i a) ;
 
-extern float Vector2iAngleBewteen (Vector2i a, Vector2i b) ;
+extern float Vector2iAngleBetween (Vector2i a, Vector2i b) ;
 
 extern float Vector2iAngle (Vector2i a) ;
 
@@ -74,7 +74,7 @@ extern float Vector3DotProduct (Vector3 a, Vector3 b) ;
 
 extern float Vector3Norm (Vector3 a) ;
 
-extern float Vector3AngleBewteen (Vector3 a, Vector3 b) ;
+extern float Vector3AngleBetween (Vector3 a, Vector3 b) ;
 
 extern float Vector3Angle (Vector3 a) ;
 
@@ -100,7 +100,7 @@ extern float Vector3iDotProduct (Vector3i a, Vector3i b) ;
 
 extern float Vector3iNorm (Vector3i a) ;
 
-extern float Vector3iAngleBewteen (Vector3i a, Vector3i b) ;
+extern float Vector3iAngleBetween (Vector3i a, Vector3i b) ;
 
 extern float Vector3iAngle (Vector3i a) ;
 
@@ -126,7 +126,7 @@ extern float Vector3Size_tDotProduct (Vector3Size_t a, Vector3Size_t b) ;
 
 extern float Vector3Size_tNorm (Vector3Size_t a) ;
 
-extern float Vector3Size_tAngleBewteen (Vector3Size_t a, Vector3Size_t b) ;
+extern float Vector3Size_tAngleBetween (Vector3Size_t a, Vector3Size_t b) ;
 
 extern float Vector3Size_tAngle (Vector3Size_t a) ;
 
@@ -150,6 +150,6 @@ extern float Vector4DotProduct (Vector4 a, Vector4 b) ;
 
 extern float Vector4Norm (Vector4 a) ;
 
-extern float Vector4AngleBewteen (Vector4 a, Vector4 b) ;
+extern float Vector4AngleBetween (Vector4 a, Vector4 b) ;
 
 extern float Vector4Angle (Vector4 a) ;

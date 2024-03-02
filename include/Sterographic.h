@@ -1,11 +1,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include "Vector.h"
+#include "Debug.h"
 
 #ifndef STEROGRAPHIC
 #define STEROGRAPHIC
 
 inline Vector2 SterographicProject (Vector3 point) {
+    DEBUG_PRINTLN("x: %f, y: %f, z: %f", point.x, point.y, point.z)
     return (Vector2) {point.x/(1-point.z), point.y/(1-point.z)};
 }
 
