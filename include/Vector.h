@@ -98,11 +98,12 @@ inline float Vector2AngleBewteen (Vector2 a, Vector2 b) {
 }
 
 inline float Vector2Angle (Vector2 a) {
-    if (a.y == 0)
+    if (a.y == 0) {
         if (a.x >=0)
             return 0;
         else
             return 3.14159265358979323846;
+    }
     return Vector2AngleBewteen (a, (Vector2) {1.0,0.0}) * a.y/fabsf(a.y);
 }
 

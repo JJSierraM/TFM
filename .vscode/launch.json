@@ -8,7 +8,7 @@
             "name": "(Solus) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/main",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

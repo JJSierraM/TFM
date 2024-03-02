@@ -63,6 +63,7 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
 
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
     ArraySize_t output = ArraySize_tNew(list->size);
+    if (list->size < 1) return output;
     LinkedListSize_tGoFirst(list);
     output.array[0] = list->current->value;
     for (size_t i = 1; i < list->size; i++) {
