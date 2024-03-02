@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include "Debug.h"
 
 NodeSize_t *LinkedListSize_tGoFirst (LinkedListSize_t *linked_list) {
     linked_list->current = linked_list->first;
@@ -62,14 +63,20 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
 }
 
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
-    ArraySize_t output = ArraySize_tNew(list->size);
-    LinkedListSize_tGoFirst(list);
-    output.array[0] = list->current->value;
-    for (size_t i = 1; i < list->size; i++) {
-        LinkedListSize_tNext(list);
-        output.array[i] = list->current->value;
+    DEBUG_PRINTLN("Size of list: %ld", list->size)
+    size_t lsize  = list->size;
+    ArraySize_t output = ArraySize_tNew(lsize);
+    if(lsize == 0){
+        return output;
+    } else{
+        LinkedListSize_tGoFirst(list);
+        output.array[0] = list->current->value;
+        for (size_t i = 1; i < list->size; i++) {
+            LinkedListSize_tNext(list);
+            output.array[i] = list->current->value;
+        }
+        return output;
     }
-    return output;
 }
 
 ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) {
