@@ -93,19 +93,20 @@ inline float Vector2Norm (Vector2 a) {
     return sqrtf(a.x*a.x + a.y*a.y);
 }
 
-inline float Vector2AngleBewteen (Vector2 a, Vector2 b) {
+inline float Vector2AngleBetween (Vector2 a, Vector2 b) {
     return acosf(Vector2DotProduct(a,b) / (Vector2Norm(a) * Vector2Norm(b)));
 }
 
 inline float Vector2Angle (Vector2 a) {
-    if (a.y == 0){
-        if (a.x >=0){
+<<<<<<< HEAD
+    if (a.y == 0) {
+        if (a.x >=0) {
             return 0;
         } else {
             return 3.14159265358979323846;
         }
     }
-    return Vector2AngleBewteen (a, (Vector2) {1.0,0.0}) * a.y/fabsf(a.y);
+    return Vector2AngleBetween (a, (Vector2) {1.0,0.0}) * a.y/fabsf(a.y);
 }
 
 inline Vector2i Vector2iAdd (Vector2i a, Vector2i b) {
@@ -156,12 +157,12 @@ inline float Vector2iNorm (Vector2i a) {
     return sqrtf((float) a.x*a.x + a.y*a.y);
 }
 
-inline float Vector2iAngleBewteen (Vector2i a, Vector2i b) {
+inline float Vector2iAngleBetween (Vector2i a, Vector2i b) {
     return acosf(Vector2iDotProduct(a,b) / (Vector2iNorm(a) * Vector2iNorm(b)));
 }
 
 inline float Vector2iAngle (Vector2i a) {
-    return Vector2iAngleBewteen (a, (Vector2i) {1,0});
+    return Vector2iAngleBetween (a, (Vector2i) {1,0});
 }
 
 inline Vector3 Vector3Add (Vector3 a, Vector3 b) {
@@ -219,12 +220,12 @@ inline float Vector3Norm (Vector3 a) {
     return sqrtf(a.x*a.x + a.y*a.y + a.z*a.z);
 }
 
-inline float Vector3AngleBewteen (Vector3 a, Vector3 b) {
+inline float Vector3AngleBetween (Vector3 a, Vector3 b) {
     return acosf(Vector3DotProduct(a,b) / (Vector3Norm(a) * Vector3Norm(b)));
 }
 
 inline float Vector3Angle (Vector3 a) {
-    return Vector3AngleBewteen (a, (Vector3) {1.0, 0.0, 0.0});
+    return Vector3AngleBetween (a, (Vector3) {1.0, 0.0, 0.0});
 }
 
 inline Vector3i Vector3iAdd (Vector3i a, Vector3i b) {
@@ -282,12 +283,12 @@ inline float Vector3iNorm (Vector3i a) {
     return sqrtf((float) a.x*a.x + a.y*a.y + a.z*a.z);
 }
 
-inline float Vector3iAngleBewteen (Vector3i a, Vector3i b) {
+inline float Vector3iAngleBetween (Vector3i a, Vector3i b) {
     return acosf(Vector3iDotProduct(a,b) / (Vector3iNorm(a) * Vector3iNorm(b)));
 }
 
 inline float Vector3iAngle (Vector3i a) {
-    return Vector3iAngleBewteen (a, (Vector3i) {1,0,0});
+    return Vector3iAngleBetween (a, (Vector3i) {1,0,0});
 }
 
 inline Vector3Size_t Vector3Size_tAdd (Vector3Size_t a, Vector3Size_t b) {
@@ -345,12 +346,12 @@ inline float Vector3Size_tNorm (Vector3Size_t a) {
     return sqrtf((float) a.x*a.x + a.y*a.y + a.z*a.z);
 }
 
-inline float Vector3Size_tAngleBewteen (Vector3Size_t a, Vector3Size_t b) {
+inline float Vector3Size_tAngleBetween (Vector3Size_t a, Vector3Size_t b) {
     return acosf(Vector3Size_tDotProduct(a,b) / (Vector3Size_tNorm(a) * Vector3Size_tNorm(b)));
 }
 
 inline float Vector3Size_tAngle (Vector3Size_t a) {
-    return Vector3Size_tAngleBewteen (a, (Vector3Size_t) {1,0,0});
+    return Vector3Size_tAngleBetween (a, (Vector3Size_t) {1,0,0});
 }
 
 inline Vector4 Vector4Add (Vector4 a, Vector4 b) {
@@ -405,12 +406,12 @@ inline float Vector4Norm (Vector4 a) {
     return sqrtf(a.x*a.x + a.y*a.y + a.z*a.z + a.w*a.w);
 }
 
-inline float Vector4AngleBewteen (Vector4 a, Vector4 b) {
+inline float Vector4AngleBetween (Vector4 a, Vector4 b) {
     return acosf(Vector4DotProduct(a,b) / (Vector4Norm(a) * Vector4Norm(b)));
 }
 
 inline float Vector4Angle (Vector4 a) {
-    return Vector4AngleBewteen (a, (Vector4) {1.0, 0.0, 0.0, 0.0});
+    return Vector4AngleBetween (a, (Vector4) {1.0, 0.0, 0.0, 0.0});
 }
 
 #endif

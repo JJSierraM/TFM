@@ -6,7 +6,8 @@ build:
 	$(CC) -O3 -march=native $(LIBCODE) -lm main.c -o main
 
 debug-build:
-	$(CC) $(DEBUG) -O3 -march=native $(LIBCODE) -lm main.c -o main
+	$(CC) $(DEBUG) -O0 -march=native $(LIBCODE) -lm main.c -o main
 
 valgrind:
+	make debug-build
 	valgrind ./main --leak-check=full
