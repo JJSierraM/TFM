@@ -18,7 +18,7 @@ Vector3 *FibonacciVertices(size_t n_points) {
         y = 1.0 * i / (n_points);
         theta = acosf(1-2*x);
         fi = 2*PI*y;
-        output[i] = Sphr2Cart((Vector3) {1.0, theta, fi});
+        output[i] = Sphr2Cart((Vector3) {.x= 1.0, .y=theta, .z=fi});
     }
     return output;
 }
