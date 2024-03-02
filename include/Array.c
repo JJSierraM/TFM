@@ -27,7 +27,7 @@ ArraySize_t ArraySize_tAppendArrays (const ArraySize_t *a, const ArraySize_t *b)
     for (i = 0; i < a->size; i++) {
         output.array[i] = a->array[i];
     }
-    for (j = 0; j < a->size; j++) {
+    for (j = 0; j < b->size; j++) {
         output.array[i+j] = b->array[j];
     }
     return output;
