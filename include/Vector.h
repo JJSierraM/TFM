@@ -98,7 +98,6 @@ inline float Vector2AngleBetween (Vector2 a, Vector2 b) {
 }
 
 inline float Vector2Angle (Vector2 a) {
-<<<<<<< HEAD
     if (a.y == 0) {
         if (a.x >=0) {
             return 0;
