@@ -20,7 +20,8 @@ ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
         b = points[combination.y];
         c = points[combination.z];
         ok = 1;
-        if (Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x == nanf(""))) {
+        //                                                            !This is only true if any of them is NaN!
+        if (Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x != a.x + b.x + c.x)) {
             combination = NextCombination(combination);
             continue;
         }

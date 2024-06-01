@@ -7,7 +7,6 @@
 #define STEROGRAPHIC
 
 inline Vector2 SterographicProject (Vector3 point) {
-    DEBUG_PRINTLN("x: %f, y: %f, z: %f", point.x, point.y, point.z)
     return (Vector2) {point.x/(1-point.z), point.y/(1-point.z)};
 }
 
