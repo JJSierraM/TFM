@@ -20,7 +20,7 @@ ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
         b = points[combination.y];
         c = points[combination.z];
         ok = 1;
-        //                                                            !This is only true if any of them is NaN!
+        //                                                            !This is only true if any of them is NaN! (Good, we have to continue if is so)
         if (Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x != a.x + b.x + c.x)) {
             combination = NextCombination(combination);
             continue;
@@ -101,15 +101,16 @@ ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
         for (size_t i = 0; i < final_points_indices.size; i++) {
             final_points[i] = points[final_points_indices.array[i]];
         }
-        Vector2 *final_points_stero = SterographicProjectArray(final_points, final_points_indices.size);
+        Vector2 *final_points_stero = SterographicProjectInvertedArray(final_points, final_points_indices.size);
         ArraySize_t final_indices_pre = Triangulation2D(final_points_stero, final_points_indices.size);
         ArraySize_t final_indices = convert_indices(&final_indices_pre, &final_points_indices);
         indices = ArraySize_tAppendArrays(&indices, &final_indices);
         free(final_points);
+        free(final_points_stero);
         ArraySize_tFree(&final_indices_pre);
         ArraySize_tFree(&final_indices);
     }
-    // free(points_stero);
+    free(points_stero);
     ArraySize_tFree(&final_points_indices);
     return indices;
 }
