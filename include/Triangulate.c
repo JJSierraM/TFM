@@ -91,7 +91,7 @@ ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
 }
 
 ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
-    Vector2 *points_stero = SterographicProjectInvertedArray(points, n_points);
+    Vector2 *points_stero = SterographicProjectArray(points, n_points);
     ArraySize_t indices = Triangulation2D(points_stero, n_points);
     
     ArraySize_t final_points_indices = GetRimPoints(points_stero, n_points, &indices);
