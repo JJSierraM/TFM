@@ -54,11 +54,13 @@ void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
 
 void LinkedListSize_tFree(LinkedListSize_t *list) {
     LinkedListSize_tGoLast(list);
-    LinkedListSize_tPrev(list);
-    while (list->current->prev != NULL) {
-        free(list->current->next);
+    if (list->current->prev != NULL) {
         LinkedListSize_tPrev(list);
-    }    
+        while (list->current->prev != NULL) {
+            free(list->current->next);
+            LinkedListSize_tPrev(list);
+        }    
+    }
     free(list->current);
 }
 
