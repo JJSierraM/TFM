@@ -39,20 +39,16 @@ inline int PointInCircle (Vector2 a, Vector2 b, Vector2 c, Vector2 p) {
 }
 
 inline Vector3Size_t NextCombination (Vector3Size_t *prev_combination) {
-    Vector3Size_t output;
-    #pragma omp critical
-    {
     if (prev_combination->z+1 < prev_combination->y) {
-        output = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {0, 0, 1});
+        *prev_combination = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {0, 0, 1});
     }
     else if (prev_combination->y+1 < prev_combination->x) {
-        output = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {0, 1, -prev_combination->z});
+        *prev_combination = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {0, 1, -prev_combination->z});
     }
     else {
-        output = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {1, 1-prev_combination->y, -prev_combination->z});
+        *prev_combination = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {1, 1-prev_combination->y, -prev_combination->z});
     }
-    }
-    return output;
+    return *prev_combination;
 }
 
 ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) ;

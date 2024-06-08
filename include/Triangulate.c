@@ -12,7 +12,7 @@ extern Vector3Size_t NextCombination (Vector3Size_t *prev_combination) ;
 
 ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
     Vector3Size_t combination = (Vector3Size_t) {2, 1, 0};
-    LinkedListSize_t indices = LinkedListSize_tNew();
+    LinkedListVector3Size_t indices = LinkedListVector3Size_tNew();
     Vector2 a, b, c, d;
     size_t ok;
     for (size_t i = 0; i < nCr(n_points, 3); i++) {
@@ -35,27 +35,23 @@ ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
             }
         }
         if (ok) {
-            LinkedListSize_tAppend(&indices, combination.x);
-            LinkedListSize_tAppend(&indices, combination.y);
-            LinkedListSize_tAppend(&indices, combination.z);
+            LinkedListVector3Size_tAppend(&indices, combination);
         }
         combination = NextCombination(&combination);
     }
-    return LinkedListSize_tToArrayAndFree(&indices);
+    return LinkedListVector3Size_tToArrayAndFree(&indices);
 }
 
 ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
     Vector3Size_t combination = (Vector3Size_t) {1, 0, 0}, my_combination;
-    LinkedListSize_t indices = LinkedListSize_tNew();
+    LinkedListVector3Size_t indices = LinkedListVector3Size_tNew();
     Vector2 a, b, c, d;
-    size_t ok;
+    size_t ok, i;
+
     #pragma omp parallel
-    {
-    #pragma omp single
-    {
-    for (size_t i = 0; i < nCr(n_points, 3); i++) {
-        #pragma omp task private(a,b,c,d,ok,my_combination) shared(combination, indices) 
-        {
+    #pragma omp taskloop private(i,a,b,c,d,ok,my_combination) shared(combination, indices) 
+    for (i = 0; i < nCr(n_points, 3); i++) {
+        #pragma omp critical
         my_combination = NextCombination(&combination);
         a = points[my_combination.x];
         b = points[my_combination.y];
@@ -73,17 +69,12 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
                 }
             }
             if (ok) {
-                LinkedListSize_tAppend(&indices, my_combination.x);
-                LinkedListSize_tAppend(&indices, my_combination.y);
-                LinkedListSize_tAppend(&indices, my_combination.z);
-            }
+                #pragma omp critical
+                LinkedListVector3Size_tAppend(&indices, my_combination);
             }
         }
     }
-    #pragma omp taskwait
-    }
-    }
-    return LinkedListSize_tToArrayAndFree(&indices);
+    return LinkedListVector3Size_tToArrayAndFree(&indices);
 }
 
 ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices) {
