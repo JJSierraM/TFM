@@ -31,6 +31,8 @@ LinkedListSize_t LinkedListSize_tNew () {
 }
 
 void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) {
+    #pragma omp critical
+    {
     NodeSize_t *node = (NodeSize_t*) malloc(sizeof(NodeSize_t));
     *node = (NodeSize_t) {
         value,
@@ -44,6 +46,7 @@ void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) {
     list->last->next = node;
     list->last = node;
     list->size++;
+    }
 }
 
 void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {

@@ -3,10 +3,10 @@ LIBCODE=include/Array.c include/Array.h include/LinkedList.c include/LinkedList.
 DEBUG=-g
 
 build: 
-	$(CC) -O3 -march=native $(LIBCODE) -lm main.c -o main
+	$(CC) -O3 -march=native $(LIBCODE) -lm main.c -o main -fopenmp
 
 debug-build:
-	$(CC) $(DEBUG) -O0 -march=native $(LIBCODE) -lm main.c -o main
+	$(CC) $(DEBUG) -O0 -march=native $(LIBCODE) -lm main.c -o main -fopenmp
 
 valgrind:
 	make debug-build

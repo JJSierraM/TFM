@@ -38,16 +38,19 @@ inline int PointInCircle (Vector2 a, Vector2 b, Vector2 c, Vector2 p) {
     return output >= 0.0;
 }
 
-inline Vector3Size_t NextCombination (Vector3Size_t prev_combination) {
+inline Vector3Size_t NextCombination (Vector3Size_t *prev_combination) {
     Vector3Size_t output;
-    if (prev_combination.z+1 != prev_combination.y) {
-        output = Vector3Size_tAdd(prev_combination, (Vector3Size_t) {0, 0, 1});
+    #pragma omp critical
+    {
+    if (prev_combination->z+1 < prev_combination->y) {
+        output = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {0, 0, 1});
     }
-    else if (prev_combination.y+1 != prev_combination.x) {
-        output = Vector3Size_tAdd(prev_combination, (Vector3Size_t) {0, 1, -prev_combination.z});
+    else if (prev_combination->y+1 < prev_combination->x) {
+        output = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {0, 1, -prev_combination->z});
     }
     else {
-        output = Vector3Size_tAdd(prev_combination, (Vector3Size_t) {1, 1-prev_combination.y, -prev_combination.z});
+        output = Vector3Size_tAdd(*prev_combination, (Vector3Size_t) {1, 1-prev_combination->y, -prev_combination->z});
+    }
     }
     return output;
 }

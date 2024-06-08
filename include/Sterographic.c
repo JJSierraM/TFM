@@ -6,9 +6,9 @@ Vector2* SterographicProjectArray (Vector3 *points, size_t n_points) {
     Vector2 *output = (Vector2*) malloc(n_points * sizeof(Vector2));
     #pragma omp parallel for
     for (size_t i = 0; i < n_points ; i++) {
-        DEBUG_PRINTLN("x: %f, y: %f, z: %f", points[i].x, points[i].y, points[i].z)
+        // DEBUG_PRINTLN("x: %f, y: %f, z: %f", points[i].x, points[i].y, points[i].z)
         output[i] = SterographicProject(points[i]);
-        DEBUG_PRINTLN("x: %f, y: %f", output[i].x, output[i].y)
+        // DEBUG_PRINTLN("x: %f, y: %f", output[i].x, output[i].y)
     }
     return output;
 }
