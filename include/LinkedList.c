@@ -63,7 +63,6 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
         }    
     }
     free(list->current);
-    free(list);
 }
 
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
@@ -151,7 +150,6 @@ void LinkedListVector3Size_tFree(LinkedListVector3Size_t *list) {
         }    
     }
     free(list->current);
-    free(list);
 }
 
 ArraySize_t LinkedListVector3Size_tToArray(LinkedListVector3Size_t *list) {

@@ -100,6 +100,7 @@ ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices
     Vector2 ab, ac;
     float angle;
 
+    #pragma omp parallel for private(prev, next, ab, ac, angle)
     for (size_t i = 0; i < n_tris; i++) {
         for (size_t j = 0; j < 3; j++) {
             prev = j-1;
@@ -116,9 +117,11 @@ ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices
     LinkedListSize_t rim_points = LinkedListSize_tNew();
     ///////////// DEBUGGING!!
     // printf("Points and their angles:\n");/////
+    #pragma omp parallel for
     for (size_t i = 0; i < n_points; i++) {
         // printf("Point %3u: %4.3f\n",i,angles[i]);/////
         if (angles[i] < 2*PI-0.05) {
+            #pragma omp critical
             LinkedListSize_tAppend(&rim_points, i);
         }
     }
@@ -140,7 +143,7 @@ ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
 }
 
 ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
-    Vector2 *points_stero = SterographicProjectArray(points, n_points);
+    Vector2 *points_stero = SterographicProjectArrayLowerHalf(points, n_points);
     ArraySize_t indices = Triangulation2DParallel(points_stero, n_points);
     
     ArraySize_t final_points_indices = GetRimPoints(points_stero, n_points, &indices);

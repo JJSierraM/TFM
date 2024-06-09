@@ -2,6 +2,7 @@
     "files.associations": {
         "matrix.h": "c",
         "linkedlist.h": "c",
-        "triangulate.h": "c"
+        "triangulate.h": "c",
+        "sterographic.h": "c"
     }
 }
