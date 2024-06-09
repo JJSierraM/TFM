@@ -81,6 +81,7 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
                 }
             }
             if (ok) {
+                #pragma omp critical
                 LinkedListVector3Size_tAppend(&indices, combination);
             }
             for (size_t i = 0; i < n_proc; i++) {
@@ -95,7 +96,6 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
 ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices) {
     size_t n_tris = indices->size / 3;
     float *angles = (float*) calloc(n_points, sizeof(float));
-    // size_t *HITS = (size_t*) calloc(n_points, sizeof(size_t)); //DEBUGGING
     int prev, next;
     Vector2 ab, ac;
     float angle;
@@ -110,26 +110,21 @@ ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices
             ac = Vector2Sub(points[indices->array[3*i + next]], points[indices->array[3*i + j]]);
             angle = fabsf(Vector2Angle(ac) - Vector2Angle(ab));
             angle += 2*(PI-angle) * (angle > PI);
+            #pragma omp atomic
             angles[indices->array[3*i + j]] += angle;
-            // HITS[indices->array[3*i + j]] ++;
         }
     }
     LinkedListSize_t rim_points = LinkedListSize_tNew();
     ///////////// DEBUGGING!!
-    printf("Points and their angles:\n");/////
+    // printf("Points and their angles:\n");/////
     // #pragma omp parallel for
     for (size_t i = 0; i < n_points; i++) {
-        printf("Point %3u:\t%4.3f\n",i,angles[i]);/////
+        // printf("Point %3u:\t%4.3f\n",i,angles[i]);/////
         if (angles[i] < 2*PI-0.05) {
             // #pragma omp critical
             LinkedListSize_tAppend(&rim_points, i);
         }
     }
-    // printf("Points and their triangles:\n");/////
-    // for (size_t i = 0; i < n_points; i++) {/////
-        // printf("Point %3u: %3u\n",i,HITS[i]);/////
-    // }
-    /////////////
     free(angles);
     return LinkedListSize_tToArrayAndFree(&rim_points);
 }
@@ -144,8 +139,8 @@ ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
 
 ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
     Vector2 *points_stero = SterographicProjectArrayLowerHalf(points, n_points);
-    ArraySize_t indices = Triangulation2DParallel(points_stero, n_points);
-    
+    ArraySize_t indices = Triangulation2D(points_stero, n_points);
+
     ArraySize_t final_points_indices = GetRimPoints(points_stero, n_points, &indices);
     if (final_points_indices.size > 0) {
         Vector3 *final_points = malloc(final_points_indices.size * sizeof(Vector3));
@@ -153,7 +148,7 @@ ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
             final_points[i] = points[final_points_indices.array[i]];
         }
         Vector2 *final_points_stero = SterographicProjectInvertedArray(final_points, final_points_indices.size);
-        ArraySize_t final_indices_pre = Triangulation2DParallel(final_points_stero, final_points_indices.size);
+        ArraySize_t final_indices_pre = Triangulation2D(final_points_stero, final_points_indices.size);
         ArraySize_t final_indices = convert_indices(&final_indices_pre, &final_points_indices);
         indices = ArraySize_tAppendArrays(&indices, &final_indices);
         free(final_points);

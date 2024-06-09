@@ -36,8 +36,8 @@ Vector3* IcosahedronVertices() {
 	vertices[7] = (Vector3) {  -1,-phi,   0};
 	vertices[8] = (Vector3) { phi,   0,   1};
 	vertices[9] = (Vector3) { phi,   0,  -1};
-	vertices[10] = (Vector3) {-phi,   0,   1};
-	vertices[11] = (Vector3) {-phi,   0,  -1};
+	vertices[10]= (Vector3) {-phi,   0,   1};
+	vertices[11]= (Vector3) {-phi,   0,  -1};
 
     for (size_t i = 0; i < 12; i++) {
        Vector3DivEquals(&vertices[i], (Vector3) {1.902113033, 1.902113033, 1.902113033});
