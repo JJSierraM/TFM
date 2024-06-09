@@ -116,12 +116,12 @@ ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices
     }
     LinkedListSize_t rim_points = LinkedListSize_tNew();
     ///////////// DEBUGGING!!
-    // printf("Points and their angles:\n");/////
-    #pragma omp parallel for
+    printf("Points and their angles:\n");/////
+    // #pragma omp parallel for
     for (size_t i = 0; i < n_points; i++) {
-        // printf("Point %3u: %4.3f\n",i,angles[i]);/////
+        printf("Point %3u:\t%4.3f\n",i,angles[i]);/////
         if (angles[i] < 2*PI-0.05) {
-            #pragma omp critical
+            // #pragma omp critical
             LinkedListSize_tAppend(&rim_points, i);
         }
     }
