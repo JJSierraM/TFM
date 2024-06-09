@@ -1,4 +1,5 @@
 #include <math.h>
+#include <omp.h>
 #include "Vector.h"
 #include "Matrix.h"
 #include "LinkedList.h"

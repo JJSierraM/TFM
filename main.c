@@ -52,7 +52,7 @@ int main() {
     
     ArraySize_t indices = SphereTriangulate(points, vertices);
 
-    ArraySize_tPrint(&indices);
+    // ArraySize_tPrint(&indices);
     printf("%u\n",indices.size);
     return 0;
 }

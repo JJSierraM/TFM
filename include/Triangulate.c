@@ -43,24 +43,36 @@ ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
 }
 
 ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
-    Vector3Size_t combination = (Vector3Size_t) {1, 0, 0}, my_combination;
+    Vector3Size_t combination = (Vector3Size_t) {2, 1, 0};
     LinkedListVector3Size_t indices = LinkedListVector3Size_tNew();
     Vector2 a, b, c, d;
-    size_t ok, i;
+    size_t ok;
 
-    #pragma omp parallel
-    #pragma omp taskloop private(i,a,b,c,d,ok,my_combination) shared(combination, indices) 
-    for (i = 0; i < nCr(n_points, 3); i++) {
-        #pragma omp critical
-        my_combination = NextCombination(&combination);
-        a = points[my_combination.x];
-        b = points[my_combination.y];
-        c = points[my_combination.z];
-        ok = 1;
-        //                                                            !This is only true if any of them is NaN! (Good, we have to continue if is so)
-        if (!(Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x != a.x + b.x + c.x))) {
+    #pragma omp parallel private(a,b,c,d,ok) firstprivate(combination) shared(indices, n_points) 
+    {
+        size_t  current_item = 0, 
+                my_id = omp_get_thread_num(), 
+                n_proc = omp_get_num_threads();
+        for (size_t i = 0; i < my_id; i++) {
+            combination = NextCombination(&combination);
+        }
+        current_item += my_id;
+
+        while (current_item < nCr(n_points, 3)) {
+            a = points[combination.x];
+            b = points[combination.y];
+            c = points[combination.z];
+            ok = 1;
+            //                                                            !This is only true if any of them is NaN! (Good, we have to continue if is so)
+            if (Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x != a.x + b.x + c.x)) {
+                for (size_t i = 0; i < n_proc; i++) {
+                    combination = NextCombination(&combination);
+                }
+                current_item += n_proc;
+                continue;
+            }
             for (size_t j = 0; j < n_points; j++) {
-                if (j==my_combination.x || j==my_combination.y || j==my_combination.z)
+                if (j==combination.x || j==combination.y || j==combination.z)
                     continue;
                 d = points[j];
                 if (PointInCircle(a, b, c, d)) {
@@ -69,9 +81,12 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
                 }
             }
             if (ok) {
-                #pragma omp critical
-                LinkedListVector3Size_tAppend(&indices, my_combination);
+                LinkedListVector3Size_tAppend(&indices, combination);
             }
+            for (size_t i = 0; i < n_proc; i++) {
+                combination = NextCombination(&combination);
+            }
+            current_item += n_proc;
         }
     }
     return LinkedListVector3Size_tToArrayAndFree(&indices);
