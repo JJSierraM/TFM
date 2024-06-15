@@ -47,6 +47,20 @@ void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) {
     list->size++;
 }
 
+void LinkedListSize_tRemove(LinkedListSize_t* list, NodeSize_t* node) {
+    if (node) {
+        //Puts the list pointer to the node thet will take its position
+        list->current = node->next;
+
+        if (node->prev)
+            ((NodeSize_t*)node->prev)->next = node->next;
+        if (node->next)
+            ((NodeSize_t*)node->next)->prev = node->prev;
+        free(node);
+    }
+    list->size--;
+}
+
 void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
     a->size += b->size;
     a->last->next = b->first;
@@ -86,6 +100,28 @@ ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) {
     ArraySize_t output = LinkedListSize_tToArray(list);
     LinkedListSize_tFree(list);
     return output;
+}
+
+void LinkedListSize_tAddByCriteria(LinkedListSize_t *list, ArraySize_t *array, int (*criteria_function)(size_t)) {
+    #pragma omp parallel for
+    for (size_t i = 0; i < array->size; i++) {
+        if ((*criteria_function)(array->array[i])) {
+            #pragma omp critical
+            LinkedListSize_tAppend(list, array->array[i]);
+        }
+    }
+}
+
+void LinkedListSize_tARemoveByCriteria(LinkedListSize_t *list, int (*criteria_function)(size_t)) {
+    LinkedListSize_tGoFirst(list);
+    if (list->size) {
+        while (list->current != NULL) {
+            if ((*criteria_function)(list->current->value))
+                LinkedListSize_tRemove(list, list->current);
+            else
+                LinkedListSize_tNext(list);
+        }
+    }
 }
 
 NodeVector3Size_t *LinkedListVector3Size_tGoFirst (LinkedListVector3Size_t *linked_list) {
@@ -132,6 +168,20 @@ void LinkedListVector3Size_tAppend(LinkedListVector3Size_t *list, Vector3Size_t 
     }
     list->last = node;
     list->size++;
+}
+
+void LinkedListVector3Size_tRemove(LinkedListVector3Size_t* list, NodeVector3Size_t* node) {
+    if (node) {
+        //Puts the list pointer to the node thet will take its position
+        list->current = node->next;
+
+        if (node->prev)
+            ((NodeVector3Size_t*)node->prev)->next = node->next;
+        if (node->next)
+            ((NodeVector3Size_t*)node->next)->prev = node->prev;
+        free(node);
+    }
+    list->size--;
 }
 
 void LikedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) {

@@ -3,6 +3,7 @@
         "matrix.h": "c",
         "linkedlist.h": "c",
         "triangulate.h": "c",
-        "sterographic.h": "c"
+        "sterographic.h": "c",
+        "__node_handle": "c"
     }
 }

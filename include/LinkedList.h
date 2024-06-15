@@ -33,6 +33,8 @@ LinkedListSize_t LinkedListSize_tNew () ;
 
 void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) ;
 
+void LinkedListSize_tRemove(LinkedListSize_t* list, NodeSize_t* node) ;
+
 void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) ;
 
 void LinkedListSize_tFree(LinkedListSize_t *list) ;
@@ -40,6 +42,10 @@ void LinkedListSize_tFree(LinkedListSize_t *list) ;
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) ;
 
 ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) ;
+
+void LinkedListSize_tAddByCriteria(LinkedListSize_t *list, ArraySize_t *array, int (*criteria_function)(size_t)) ;
+
+void LinkedListSize_tARemoveByCriteria(LinkedListSize_t *list, int (*criteria_function)(size_t)) ;
 
 typedef struct NodeVector3Size_t
 {
@@ -67,6 +73,8 @@ NodeVector3Size_t *LinkedListVector3Size_tPrev (LinkedListVector3Size_t *linked_
 LinkedListVector3Size_t LinkedListVector3Size_tNew () ;
 
 void LinkedListVector3Size_tAppend(LinkedListVector3Size_t *list, Vector3Size_t value) ;
+
+void LinkedListVector3Size_tRemove(LinkedListVector3Size_t* list, NodeVector3Size_t* node) ;
 
 void LikedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) ;
 
