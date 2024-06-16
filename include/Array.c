@@ -15,6 +15,7 @@ ArraySize_t ArraySize_tZeros (const size_t size) {
 }
 
 void ArraySize_tFree (ArraySize_t *array) {
+    array->size = 0;
     free(array->array);
 }
 
@@ -52,6 +53,7 @@ ArrayVector2 ArrayVector2Zeros (const size_t size) {
 }
 
 void ArrayVector2Free (ArrayVector2 *array) {
+    array->size = 0;
     free(array->array);
 }
 
@@ -89,22 +91,8 @@ ArrayVector3 ArrayVector3Zeros (const size_t size) {
 }
 
 void ArrayVector3Free (ArrayVector3 *array) {
+    array->size = 0;
     free(array->array);
-}
-
-ArrayVector3 ArrayVector3AppendArrays (const ArrayVector3 *a, const ArrayVector3 *b) {
-    size_t i, j;
-    ArrayVector3 output;
-    output.size = a->size + b->size;
-    output.array = (Vector3*) malloc(output.size * sizeof(Vector3));
-
-    for (i = 0; i < a->size; i++) {
-        output.array[i] = a->array[i];
-    }
-    for (j = 0; j < b->size; j++) {
-        output.array[i+j] = b->array[j];
-    }
-    return output;
 }
 
 void ArrayVector3AppendArrays (ArrayVector3 *a, const ArrayVector3 *b) {

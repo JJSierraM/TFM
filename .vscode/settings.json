@@ -4,6 +4,20 @@
         "linkedlist.h": "c",
         "triangulate.h": "c",
         "sterographic.h": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "array": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "span": "c",
+        "__hash_table": "c",
+        "__split_buffer": "c",
+        "deque": "c",
+        "queue": "c",
+        "stack": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c"
     }
 }

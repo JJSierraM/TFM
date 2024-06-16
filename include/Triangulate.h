@@ -54,10 +54,10 @@ inline Vector3Size_t NextCombination (Vector3Size_t *prev_combination) {
 
 ArraySize_t Triangulation2D (ArrayVector2 *working_points, ArrayVector2 *testing_points, ArraySize_t *working_indices) ;
 
-ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices) ;
+ArraySize_t GetRimPoints (ArrayVector2 *testing_points, ArraySize_t *indices, ArraySize_t* global_to_testing_indices, ArraySize_t *testing_to_global_indices) ;
 
 ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) ;
 
-ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) ;
+ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points, size_t n_steps) ;
 
 #endif

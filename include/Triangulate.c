@@ -143,17 +143,38 @@ void AddIndicesInSegment(LinkedListSize_t *list, ArrayVector3 *points, float low
     }
 }
 
-void RemoveFullIndices(LinkedListSize_t *list, Vector2 *projected_points) {
-
+void RemoveFullIndices(LinkedListSize_t *working_indices_list, ArraySize_t *rim_indices) {
+    int in_rim;
+    LinkedListSize_tGoFirst(working_indices_list);
+    for (size_t i = 0; i < working_indices_list->size; i++) {
+        in_rim = 0;
+        for (size_t j = 0; j < rim_indices->size; j++) {
+            if (working_indices_list->current->value == rim_indices->array[j]) {
+                in_rim = 1;
+                break;
+            }
+        }
+        if (in_rim)
+            LinkedListSize_tNext(working_indices_list);
+        else
+            LinkedListSize_tRemove(working_indices_list, working_indices_list->current); //Remove puts list pointer on next item
+    }
 }
 
 ArrayVector3 IndicesListToArrayVector3 (LinkedListSize_t *list, ArrayVector3 *points) {
     ArrayVector3 output = ArrayVector3New(list->size);
-    LinkedListVector3Size_tGoFirst(list);
-    for (size_t i = 0; i < list->size; i++)
-    {
+    LinkedListSize_tGoFirst(list);
+    for (size_t i = 0; i < list->size; i++) {
         output.array[i] = points->array[list->current->value];
-        LinkedListVector3Size_tNext(list);
+        LinkedListSize_tNext(list);
+    }
+    return output;    
+}
+
+ArrayVector3 IndicesArrayToArrayVector3 (ArraySize_t *array, ArrayVector3 *points) {
+    ArrayVector3 output = ArrayVector3New(array->size);
+    for (size_t i = 0; i < array->size; i++) {
+        output.array[i] = points->array[array->array[i]];
     }
     return output;    
 }
@@ -166,22 +187,27 @@ void RegisterTestingIndices(LinkedListSize_t *section_indices, ArraySize_t *glob
     {
         global_to_testing_indices->array[section_indices->current->value] = *registered_testing_points;
         testing_to_global_indices->array[*registered_testing_points] = section_indices->current->value;
-        *registered_testing_points++;
+        *registered_testing_points+=1;
         LinkedListSize_tNext(section_indices);
     }
 }
 
-void UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps) {
+void AppendArrayToList(LinkedListSize_t *list, ArraySize_t *array) {
+    for (size_t i = 0; i < array->size; i++) {
+        LinkedListSize_tAppend(list, array->array[i]);
+    }
+}
+
+ArraySize_t UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArraySize_t *equatorial_points) {
     LinkedListSize_t section_indices_list = LinkedListSize_tNew();
     LinkedListSize_t working_indices_list = LinkedListSize_tNew();
-    LinkedListSize_t rim_indices_list = LinkedListSize_tNew();
 
     ArraySize_t global_to_testing_indices = ArraySize_tZeros(points->size);
     ArraySize_t testing_to_global_indices = ArraySize_tNew(0);
     ArraySize_t final_indices_array = ArraySize_tNew(0);
-    ArraySize_t rim_points;
+    ArraySize_t rim_indices_array;
     ArraySize_t working_indices_array, section_final_indices;
-    ArrayVector3 working_points_3d, testing_points_3d, section_points_3d;
+    ArrayVector3 working_points_3d, testing_points_3d = ArrayVector3New(0), section_points_3d;
     ArrayVector2 working_points_2d, testing_points_2d;
     size_t registered_testing_points = 0;
 
@@ -193,72 +219,110 @@ void UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps) {
         up_z = cosf(low_angle);
 
         AddIndicesInSegment(&section_indices_list, points, low_z, up_z);
-        RegisterTestingIndices(&section_indices_list, &global_to_testing_indices, &registered_testing_points);
+        RegisterTestingIndices(&section_indices_list, &global_to_testing_indices, &testing_to_global_indices, &registered_testing_points);
         section_points_3d = IndicesListToArrayVector3(&section_indices_list, points);
         ArrayVector3AppendArrays(&testing_points_3d, &section_points_3d);
-        testing_points_2d = SterographicProjectInvertedArrayVector2(&testing_points_2d);
+        testing_points_2d = SterographicProjectInvertedArrayVector2(&testing_points_3d);
         LinkedListSize_tAppendList(&working_indices_list, &section_indices_list);
         working_indices_array = LinkedListSize_tToArray(&working_indices_list);
         working_points_3d = IndicesListToArrayVector3(&working_indices_list, points);
         working_points_2d = SterographicProjectInvertedArrayVector2(&working_points_3d);
         section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
         ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
-        rim_points = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
-        //Remove rim points from working indices;
-        //Free arrays
-    }
-    
+        rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
+        RemoveFullIndices(&working_indices_list, &rim_indices_array);
 
+        //Free lists & arrays
+        //These functions empty the containers, but don't free the varables themselves
+        LinkedListSize_tFree(&section_indices_list);
+        ArrayVector3Free(&section_points_3d);
+        ArrayVector2Free(&testing_points_2d);
+        ArraySize_tFree(&working_indices_array);
+        ArrayVector3Free(&working_points_3d);
+        ArrayVector2Free(&working_points_2d);
+        ArraySize_tFree(&section_final_indices);
+
+        if (i==n_steps-1) {
+            equatorial_points->size = rim_indices_array.size;
+            equatorial_points->array = rim_indices_array.array;
+        }
+        else {
+            ArraySize_tFree(&rim_indices_array);
+        }
+    }
+    return final_indices_array;
+}
+
+ArraySize_t LowerSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArraySize_t *equatorial_points) {
+    LinkedListSize_t section_indices_list = LinkedListSize_tNew();
+    LinkedListSize_t working_indices_list = LinkedListSize_tNew();
+
+    ArraySize_t global_to_testing_indices = ArraySize_tZeros(points->size);
+    ArraySize_t testing_to_global_indices = ArraySize_tNew(0);
+    ArraySize_t final_indices_array = ArraySize_tNew(0);
+    ArraySize_t rim_indices_array;
+    ArraySize_t working_indices_array, section_final_indices;
+    ArrayVector3 working_points_3d, testing_points_3d = ArrayVector3New(0), section_points_3d;
+    ArrayVector2 working_points_2d, testing_points_2d;
+    size_t registered_testing_points = 0;
+
+    for (size_t i = 0; i < n_steps; i++) {
+        float low_angle, up_angle, low_z, up_z;
+        low_angle = PI - (i+1)  *PI/2/n_steps;   //Now it starts at 180 deg and goes down to 90 deg
+        up_angle =  PI - (i)*PI/2/n_steps;
+        low_z = cosf(up_angle);
+        up_z = cosf(low_angle);
+
+        AddIndicesInSegment(&section_indices_list, points, low_z, up_z);
+        RegisterTestingIndices(&section_indices_list, &global_to_testing_indices, &testing_to_global_indices, &registered_testing_points);
+        section_points_3d = IndicesListToArrayVector3(&section_indices_list, points);
+        ArrayVector3AppendArrays(&testing_points_3d, &section_points_3d);
+        LinkedListSize_tAppendList(&working_indices_list, &section_indices_list);
+        working_indices_array = LinkedListSize_tToArray(&working_indices_list);
+        working_points_3d = IndicesListToArrayVector3(&working_indices_list, points);
+        if (i==n_steps-1){
+            ArrayVector3 equatorial_points_3d = IndicesArrayToArrayVector3(equatorial_points, points);
+            ArrayVector3AppendArrays(&testing_points_3d, &equatorial_points_3d);
+            ArrayVector3AppendArrays(&working_points_3d, &equatorial_points_3d);
+        }
+        testing_points_2d = SterographicProjectArrayVector2(&testing_points_3d);
+        working_points_2d = SterographicProjectArrayVector2(&working_points_3d);
+        section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
+        ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
+        if (i != n_steps-1){
+            rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
+            RemoveFullIndices(&working_indices_list, &rim_indices_array);
+        }
+
+        //Free lists & arrays
+        //These functions empty the containers, but don't free the varables themselves
+        LinkedListSize_tFree(&section_indices_list);
+        ArrayVector3Free(&section_points_3d);
+        ArrayVector2Free(&testing_points_2d);
+        ArraySize_tFree(&working_indices_array);
+        ArrayVector3Free(&working_points_3d);
+        ArrayVector2Free(&working_points_2d);
+        ArraySize_tFree(&section_final_indices);
+        // ArraySize_tFree(&rim_indices_array);
+
+    }
+    return final_indices_array;
 }
 
 ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points, size_t n_steps) {
-    LinkedListSize_t section_indices_list = LinkedListSize_tNew();
-    LinkedListSize_t working_indices_list = LinkedListSize_tNew();
-    LinkedListVector3Size_t final_indices_list = LinkedListVector3Size_tNew();
+    ArraySize_t indices, lower_indices;
+    ArraySize_t equatorial_points;
+    ArrayVector3 points_array = ArrayVector3New(n_points);
+    for (size_t i=0; i<n_points; i++)
+        points_array.array[i] = points[i];
 
-    ArraySize_t working_indices;
-    ArrayVector3 working_points_3d, testing_points_3d;
-    ArrayVector2 working_points_2d, testing_points_2d;
+    indices = UpperSphereTriangulate(&points_array, n_steps, &equatorial_points);
+    lower_indices = LowerSphereTriangulate(&points_array, n_steps, &equatorial_points);
 
-    float low_angle, up_angle, low_z, up_z;
-    low_angle = PI/n_steps; 
-    up_angle = 2*PI/n_steps;
-    low_z = cosf(up_angle);
-    up_z = cosf(low_angle);
+    ArraySize_tAppendArrays(&indices, &lower_indices);
+    ArraySize_tFree(&lower_indices);
+    ArraySize_tFree(&equatorial_points);
+    ArrayVector3Free(&points_array);
 
-    AddIndicesInSegment(&working_indices_list, points, n_points, low_z, up_z);
-    ArraySize_t working_indices_array = LinkedListSize_tToArray(&working_indices_list);
-    Vector2 *working_points_stero = SterographicProjectArray(working_indices_array.array, working_indices_array.size);
-    LinkedListVector3Size_t section_indices_list = Triangulation2D(working_points_stero, working_indices_array.size);
-    LikedListVector3Size_tAppendList(&final_indices_list, &section_indices_list);
-    ArraySize_t rim_points = GetRimPoints(working_points_stero, working_indices_array.size, &indices);
-
-
-
-    for (size_t i = 0; i < n_steps; i++) {
-        /* code */
-    }
-    
-
-    Vector2 *points_stero = SterographicProjectArrayLowerHalf(points, n_points);
-    ArraySize_t indices = Triangulation2D(points_stero, n_points);
-
-    ArraySize_t final_points_indices = GetRimPoints(points_stero, n_points, &indices);
-    if (final_points_indices.size > 0) {
-        Vector3 *final_points = malloc(final_points_indices.size * sizeof(Vector3));
-        for (size_t i = 0; i < final_points_indices.size; i++) {
-            final_points[i] = points[final_points_indices.array[i]];
-        }
-        Vector2 *final_points_stero = SterographicProjectInvertedArray(final_points, final_points_indices.size);
-        ArraySize_t final_indices_pre = Triangulation2D(final_points_stero, final_points_indices.size);
-        ArraySize_t final_indices = convert_indices(&final_indices_pre, &final_points_indices);
-        indices = ArraySize_tAppendArrays(&indices, &final_indices);
-        free(final_points);
-        free(final_points_stero);
-        ArraySize_tFree(&final_indices_pre);
-        ArraySize_tFree(&final_indices);
-    }
-    free(points_stero);
-    ArraySize_tFree(&final_points_indices);
     return indices;
 }

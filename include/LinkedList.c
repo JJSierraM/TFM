@@ -57,13 +57,16 @@ void LinkedListSize_tRemove(LinkedListSize_t* list, NodeSize_t* node) {
         if (node->next)
             ((NodeSize_t*)node->next)->prev = node->prev;
         free(node);
+        list->size--;
     }
-    list->size--;
 }
 
 void LinkedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
     a->size += b->size;
-    a->last->next = b->first;
+    if(a->first == NULL)
+        a->first = b->first;
+    if(a->last != NULL)
+        a->last->next = b->first;
     a->last = b->last;
 }
 
@@ -179,8 +182,8 @@ void LinkedListVector3Size_tRemove(LinkedListVector3Size_t* list, NodeVector3Siz
         if (node->next)
             ((NodeVector3Size_t*)node->next)->prev = node->prev;
         free(node);
+        list->size--;
     }
-    list->size--;
 }
 
 void LinkedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) {
