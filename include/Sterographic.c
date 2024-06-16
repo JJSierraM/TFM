@@ -24,6 +24,17 @@ Vector2* SterographicProjectArrayLowerHalf (Vector3 *points, size_t n_points) {
     return output;
 }
 
+ArrayVector2 SterographicProjectArrayVector2 (ArrayVector3 *points) {
+    ArrayVector2 output = ArrayVector2New(points->size);
+    #pragma omp parallel for
+    for (size_t i = 0; i < points->size ; i++) {
+        // DEBUG_PRINTLN("x: %f, y: %f, z: %f", points[i].x, points[i].y, points[i].z)
+        output.array[i] = SterographicProject(points->array[i]);
+        // DEBUG_PRINTLN("x: %f, y: %f", output[i].x, output[i].y)
+    }
+    return output;
+}
+
 extern Vector2 SterographicProjectInverted (Vector3 point) ;
 
 Vector2* SterographicProjectInvertedArray (Vector3 *points, size_t n_points) {
@@ -35,3 +46,13 @@ Vector2* SterographicProjectInvertedArray (Vector3 *points, size_t n_points) {
     return output;
 }
 
+ArrayVector2 SterographicProjectInvertedArrayVector2 (ArrayVector3 *points) {
+    ArrayVector2 output = ArrayVector2New(points->size);
+    #pragma omp parallel for
+    for (size_t i = 0; i < points->size ; i++) {
+        // DEBUG_PRINTLN("x: %f, y: %f, z: %f", points[i].x, points[i].y, points[i].z)
+        output.array[i] = SterographicProjectInverted(points->array[i]);
+        // DEBUG_PRINTLN("x: %f, y: %f", output[i].x, output[i].y)
+    }
+    return output;
+}

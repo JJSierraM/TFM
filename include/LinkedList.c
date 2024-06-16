@@ -61,7 +61,7 @@ void LinkedListSize_tRemove(LinkedListSize_t* list, NodeSize_t* node) {
     list->size--;
 }
 
-void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
+void LinkedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
     a->size += b->size;
     a->last->next = b->first;
     a->last = b->last;
@@ -70,10 +70,9 @@ void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) {
 void LinkedListSize_tFree(LinkedListSize_t *list) {
     LinkedListSize_tGoLast(list);
     if (list->current->prev != NULL) {
-        LinkedListSize_tPrev(list);
         while (list->current->prev != NULL) {
-            free(list->current->next);
             LinkedListSize_tPrev(list);
+            free(list->current->next);
         }    
     }
     free(list->current);
@@ -184,7 +183,7 @@ void LinkedListVector3Size_tRemove(LinkedListVector3Size_t* list, NodeVector3Siz
     list->size--;
 }
 
-void LikedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) {
+void LinkedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) {
     a->size += b->size;
     a->last->next = b->first;
     a->last = b->last;
@@ -193,10 +192,9 @@ void LikedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVect
 void LinkedListVector3Size_tFree(LinkedListVector3Size_t *list) {
     LinkedListVector3Size_tGoLast(list);
     if (list->current->prev != NULL) {
-        LinkedListVector3Size_tPrev(list);
         while (list->current->prev != NULL) {
-            free(list->current->next);
             LinkedListVector3Size_tPrev(list);
+            free(list->current->next);
         }    
     }
     free(list->current);

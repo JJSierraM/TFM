@@ -36,7 +36,7 @@ inline int PointInCircle (Vector2 a, Vector2 b, Vector2 c, Vector2 p) {
         c.x-p.x,    c.y-p.y,    powf(c.x-p.x,2)+powf(c.y-p.y,2),
     };
     float output = Matrix3x3Determinant(matrix) * RightHand(a, b, c);
-    return output >= 0.0;
+    return output > 0.0001;
 }
 
 inline Vector3Size_t NextCombination (Vector3Size_t *prev_combination) {
@@ -52,7 +52,7 @@ inline Vector3Size_t NextCombination (Vector3Size_t *prev_combination) {
     return *prev_combination;
 }
 
-ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) ;
+ArraySize_t Triangulation2D (ArrayVector2 *working_points, ArrayVector2 *testing_points, ArraySize_t *working_indices) ;
 
 ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices) ;
 

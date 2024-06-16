@@ -35,7 +35,7 @@ void LinkedListSize_tAppend(LinkedListSize_t *list, size_t value) ;
 
 void LinkedListSize_tRemove(LinkedListSize_t* list, NodeSize_t* node) ;
 
-void LikedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) ;
+void LinkedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) ;
 
 void LinkedListSize_tFree(LinkedListSize_t *list) ;
 
@@ -76,7 +76,7 @@ void LinkedListVector3Size_tAppend(LinkedListVector3Size_t *list, Vector3Size_t 
 
 void LinkedListVector3Size_tRemove(LinkedListVector3Size_t* list, NodeVector3Size_t* node) ;
 
-void LikedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) ;
+void LinkedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) ;
 
 void LinkedListVector3Size_tFree(LinkedListVector3Size_t *list) ;
 

@@ -10,45 +10,43 @@ extern int PointInCircle (Vector2 a, Vector2 b, Vector2 c, Vector2 p) ;
 
 extern Vector3Size_t NextCombination (Vector3Size_t *prev_combination) ;
 
-ArraySize_t Triangulation2D (Vector2 *points, size_t n_points) {
+ArraySize_t Triangulation2D (ArrayVector2 *working_points, ArrayVector2 *testing_points, ArraySize_t *working_indices) {
     Vector3Size_t combination = (Vector3Size_t) {2, 1, 0};
     LinkedListVector3Size_t indices = LinkedListVector3Size_tNew();
     Vector2 a, b, c, d;
     size_t ok;
-    for (size_t i = 0; i < nCr(n_points, 3); i++) {
-        a = points[combination.x];
-        b = points[combination.y];
-        c = points[combination.z];
+    for (size_t i = 0; i < nCr(working_points->size, 3); i++) {
+        a = working_points->array[combination.x];
+        b = working_points->array[combination.y];
+        c = working_points->array[combination.z];
         ok = 1;
         //                                                            !This is only true if any of them is NaN! (Good, we have to continue if is so)
         if (Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x != a.x + b.x + c.x)) {
             combination = NextCombination(&combination);
             continue;
         }
-        for (size_t j = 0; j < n_points; j++) {
-            if (j==combination.x || j==combination.y || j==combination.z)
-                continue;
-            d = points[j];
+        for (size_t j = 0; j < testing_points->size; j++) {
+            d = testing_points->array[j];
             if (PointInCircle(a, b, c, d)) {
                 ok = 0;
                 break;
             }
         }
         if (ok) {
-            LinkedListVector3Size_tAppend(&indices, combination);
+            LinkedListVector3Size_tAppend(&indices, (Vector3Size_t) {working_indices->array[combination.x], working_indices->array[combination.y], working_indices->array[combination.z]});
         }
         combination = NextCombination(&combination);
     }
     return LinkedListVector3Size_tToArrayAndFree(&indices);
 }
 
-ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
+LinkedListVector3Size_t Triangulation2DParallel (ArrayVector2 *working_points, ArrayVector2 *testing_points, ArraySize_t *working_indices) {
     Vector3Size_t combination = (Vector3Size_t) {2, 1, 0};
     LinkedListVector3Size_t indices = LinkedListVector3Size_tNew();
     Vector2 a, b, c, d;
     size_t ok;
 
-    #pragma omp parallel private(a,b,c,d,ok) firstprivate(combination) shared(indices, n_points) 
+    #pragma omp parallel private(a,b,c,d,ok) firstprivate(combination) shared(indices, working_points, testing_points, working_indices) 
     {
         size_t  current_item = 0, 
                 my_id = omp_get_thread_num(), 
@@ -58,10 +56,10 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
         }
         current_item += my_id;
 
-        while (current_item < nCr(n_points, 3)) {
-            a = points[combination.x];
-            b = points[combination.y];
-            c = points[combination.z];
+        while (current_item < nCr(working_points->size, 3)) {
+            a = working_points->array[combination.x];
+            b = working_points->array[combination.y];
+            c = working_points->array[combination.z];
             ok = 1;
             //                                                            !This is only true if any of them is NaN! (Good, we have to continue if is so)
             if (Vector2CrossProduct(Vector2Sub(b,a),Vector2Sub(c,a))==0 || (a.x + b.x + c.x != a.x + b.x + c.x)) {
@@ -71,10 +69,8 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
                 current_item += n_proc;
                 continue;
             }
-            for (size_t j = 0; j < n_points; j++) {
-                if (j==combination.x || j==combination.y || j==combination.z)
-                    continue;
-                d = points[j];
+            for (size_t j = 0; j < testing_points->size; j++) {
+                d = testing_points->array[j];
                 if (PointInCircle(a, b, c, d)) {
                     ok = 0;
                     break;
@@ -82,7 +78,7 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
             }
             if (ok) {
                 #pragma omp critical
-                LinkedListVector3Size_tAppend(&indices, combination);
+                LinkedListVector3Size_tAppend(&indices, (Vector3Size_t) {working_indices->array[combination.x], working_indices->array[combination.y], working_indices->array[combination.z]});
             }
             for (size_t i = 0; i < n_proc; i++) {
                 combination = NextCombination(&combination);
@@ -90,12 +86,12 @@ ArraySize_t Triangulation2DParallel (Vector2 *points, size_t n_points) {
             current_item += n_proc;
         }
     }
-    return LinkedListVector3Size_tToArrayAndFree(&indices);
+    return indices;
 }
 
-ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices) {
+ArraySize_t GetRimPoints (ArrayVector2 *testing_points, ArraySize_t *indices, ArraySize_t* global_to_testing_indices, ArraySize_t *testing_to_global_indices) {
     size_t n_tris = indices->size / 3;
-    float *angles = (float*) calloc(n_points, sizeof(float));
+    float *angles = (float*) calloc(testing_points->size, sizeof(float));
     int prev, next;
     Vector2 ab, ac;
     float angle;
@@ -106,23 +102,23 @@ ArraySize_t GetRimPoints (Vector2 *points, size_t n_points, ArraySize_t *indices
             prev = j-1;
             prev += 3 * (prev < 0);
             next = (j+1) % 3;
-            ab = Vector2Sub(points[indices->array[3*i + prev]], points[indices->array[3*i + j]]);
-            ac = Vector2Sub(points[indices->array[3*i + next]], points[indices->array[3*i + j]]);
+            ab = Vector2Sub(testing_points->array[global_to_testing_indices->array[indices->array[3*i + prev]]], testing_points->array[global_to_testing_indices->array[indices->array[3*i + j]]]);
+            ac = Vector2Sub(testing_points->array[global_to_testing_indices->array[indices->array[3*i + next]]], testing_points->array[global_to_testing_indices->array[indices->array[3*i + j]]]);
             angle = fabsf(Vector2Angle(ac) - Vector2Angle(ab));
             angle += 2*(PI-angle) * (angle > PI);
             #pragma omp atomic
-            angles[indices->array[3*i + j]] += angle;
+            angles[global_to_testing_indices->array[indices->array[3*i + j]]] += angle;
         }
     }
     LinkedListSize_t rim_points = LinkedListSize_tNew();
     ///////////// DEBUGGING!!
     // printf("Points and their angles:\n");/////
     // #pragma omp parallel for
-    for (size_t i = 0; i < n_points; i++) {
+    for (size_t i = 0; i < testing_points->size; i++) {
         // printf("Point %3u:\t%4.3f\n",i,angles[i]);/////
         if (angles[i] < 2*PI-0.05) {
             // #pragma omp critical
-            LinkedListSize_tAppend(&rim_points, i);
+            LinkedListSize_tAppend(&rim_points, testing_to_global_indices->array[i]);
         }
     }
     free(angles);
@@ -137,7 +133,113 @@ ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
     return LinkedListSize_tToArrayAndFree(&converted);
 }
 
-ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
+void AddIndicesInSegment(LinkedListSize_t *list, ArrayVector3 *points, float low_z, float up_z) {
+    #pragma omp parallel for
+    for (size_t i = 0; i < points->size; i++) {
+        if (points->array[i].z > low_z && points->array[i].z <= up_z) {
+            #pragma omp critical
+            LinkedListSize_tAppend(list, i);
+        }
+    }
+}
+
+void RemoveFullIndices(LinkedListSize_t *list, Vector2 *projected_points) {
+
+}
+
+ArrayVector3 IndicesListToArrayVector3 (LinkedListSize_t *list, ArrayVector3 *points) {
+    ArrayVector3 output = ArrayVector3New(list->size);
+    LinkedListVector3Size_tGoFirst(list);
+    for (size_t i = 0; i < list->size; i++)
+    {
+        output.array[i] = points->array[list->current->value];
+        LinkedListVector3Size_tNext(list);
+    }
+    return output;    
+}
+
+void RegisterTestingIndices(LinkedListSize_t *section_indices, ArraySize_t *global_to_testing_indices, ArraySize_t *testing_to_global_indices, size_t *registered_testing_points) {
+    testing_to_global_indices->size += section_indices->size;
+    testing_to_global_indices->array = realloc(testing_to_global_indices->array, testing_to_global_indices->size * sizeof(size_t));
+    LinkedListSize_tGoFirst(section_indices);
+    for (size_t i = 0; i < section_indices->size; i++)
+    {
+        global_to_testing_indices->array[section_indices->current->value] = *registered_testing_points;
+        testing_to_global_indices->array[*registered_testing_points] = section_indices->current->value;
+        *registered_testing_points++;
+        LinkedListSize_tNext(section_indices);
+    }
+}
+
+void UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps) {
+    LinkedListSize_t section_indices_list = LinkedListSize_tNew();
+    LinkedListSize_t working_indices_list = LinkedListSize_tNew();
+    LinkedListSize_t rim_indices_list = LinkedListSize_tNew();
+
+    ArraySize_t global_to_testing_indices = ArraySize_tZeros(points->size);
+    ArraySize_t testing_to_global_indices = ArraySize_tNew(0);
+    ArraySize_t final_indices_array = ArraySize_tNew(0);
+    ArraySize_t rim_points;
+    ArraySize_t working_indices_array, section_final_indices;
+    ArrayVector3 working_points_3d, testing_points_3d, section_points_3d;
+    ArrayVector2 working_points_2d, testing_points_2d;
+    size_t registered_testing_points = 0;
+
+    for (size_t i = 0; i < n_steps; i++) {
+        float low_angle, up_angle, low_z, up_z;
+        low_angle = (i)*PI/2/n_steps;
+        up_angle = (i+1)*PI/2/n_steps;
+        low_z = cosf(up_angle);
+        up_z = cosf(low_angle);
+
+        AddIndicesInSegment(&section_indices_list, points, low_z, up_z);
+        RegisterTestingIndices(&section_indices_list, &global_to_testing_indices, &registered_testing_points);
+        section_points_3d = IndicesListToArrayVector3(&section_indices_list, points);
+        ArrayVector3AppendArrays(&testing_points_3d, &section_points_3d);
+        testing_points_2d = SterographicProjectInvertedArrayVector2(&testing_points_2d);
+        LinkedListSize_tAppendList(&working_indices_list, &section_indices_list);
+        working_indices_array = LinkedListSize_tToArray(&working_indices_list);
+        working_points_3d = IndicesListToArrayVector3(&working_indices_list, points);
+        working_points_2d = SterographicProjectInvertedArrayVector2(&working_points_3d);
+        section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
+        ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
+        rim_points = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
+        //Remove rim points from working indices;
+        //Free arrays
+    }
+    
+
+}
+
+ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points, size_t n_steps) {
+    LinkedListSize_t section_indices_list = LinkedListSize_tNew();
+    LinkedListSize_t working_indices_list = LinkedListSize_tNew();
+    LinkedListVector3Size_t final_indices_list = LinkedListVector3Size_tNew();
+
+    ArraySize_t working_indices;
+    ArrayVector3 working_points_3d, testing_points_3d;
+    ArrayVector2 working_points_2d, testing_points_2d;
+
+    float low_angle, up_angle, low_z, up_z;
+    low_angle = PI/n_steps; 
+    up_angle = 2*PI/n_steps;
+    low_z = cosf(up_angle);
+    up_z = cosf(low_angle);
+
+    AddIndicesInSegment(&working_indices_list, points, n_points, low_z, up_z);
+    ArraySize_t working_indices_array = LinkedListSize_tToArray(&working_indices_list);
+    Vector2 *working_points_stero = SterographicProjectArray(working_indices_array.array, working_indices_array.size);
+    LinkedListVector3Size_t section_indices_list = Triangulation2D(working_points_stero, working_indices_array.size);
+    LikedListVector3Size_tAppendList(&final_indices_list, &section_indices_list);
+    ArraySize_t rim_points = GetRimPoints(working_points_stero, working_indices_array.size, &indices);
+
+
+
+    for (size_t i = 0; i < n_steps; i++) {
+        /* code */
+    }
+    
+
     Vector2 *points_stero = SterographicProjectArrayLowerHalf(points, n_points);
     ArraySize_t indices = Triangulation2D(points_stero, n_points);
 
