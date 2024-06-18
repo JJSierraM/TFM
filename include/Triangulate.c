@@ -284,6 +284,7 @@ ArraySize_t LowerSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
             ArrayVector3 equatorial_points_3d = IndicesArrayToArrayVector3(equatorial_points, points);
             ArrayVector3AppendArrays(&testing_points_3d, &equatorial_points_3d);
             ArrayVector3AppendArrays(&working_points_3d, &equatorial_points_3d);
+            ArraySize_tAppendArrays(&working_indices_array, equatorial_points);
         }
         testing_points_2d = SterographicProjectArrayVector2(&testing_points_3d);
         working_points_2d = SterographicProjectArrayVector2(&working_points_3d);
@@ -318,6 +319,11 @@ ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points, size_t n_steps)
 
     indices = UpperSphereTriangulate(&points_array, n_steps, &equatorial_points);
     lower_indices = LowerSphereTriangulate(&points_array, n_steps, &equatorial_points);
+
+    //
+    ArraySize_tPrint(&indices);
+    ArraySize_tPrint(&lower_indices);
+    //
 
     ArraySize_tAppendArrays(&indices, &lower_indices);
     ArraySize_tFree(&lower_indices);
