@@ -138,7 +138,7 @@ ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
 }
 
 ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
-    Vector2 *points_stero = SterographicProjectArrayLowerHalf(points, n_points);
+    Vector2 *points_stero = SterographicProjectArray(points, n_points);
     ArraySize_t indices = Triangulation2D(points_stero, n_points);
     printf("%u\n",indices.size);
 
