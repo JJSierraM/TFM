@@ -50,9 +50,10 @@ int main() {
     const size_t vertices = 64;
     Vector3 *points = FibonacciVertices(vertices);
     
-    ArraySize_t indices = SphereTriangulate(points, vertices, 2);
+    ArraySize_t indices = SphereTriangulate(points, vertices, 1);
 
     // ArraySize_tPrint(&indices);
     printf("Total size: %u\n",indices.size);
     return 0;
 }
+ 
