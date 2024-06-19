@@ -140,6 +140,7 @@ ArraySize_t convert_indices(ArraySize_t *indices, ArraySize_t *conversion) {
 ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
     Vector2 *points_stero = SterographicProjectArrayLowerHalf(points, n_points);
     ArraySize_t indices = Triangulation2D(points_stero, n_points);
+    printf("%u\n",indices.size);
 
     ArraySize_t final_points_indices = GetRimPoints(points_stero, n_points, &indices);
     if (final_points_indices.size > 0) {
@@ -150,6 +151,7 @@ ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points) {
         Vector2 *final_points_stero = SterographicProjectInvertedArray(final_points, final_points_indices.size);
         ArraySize_t final_indices_pre = Triangulation2D(final_points_stero, final_points_indices.size);
         ArraySize_t final_indices = convert_indices(&final_indices_pre, &final_points_indices);
+        printf("%u\n",final_indices.size);
         indices = ArraySize_tAppendArrays(&indices, &final_indices);
         free(final_points);
         free(final_points_stero);
