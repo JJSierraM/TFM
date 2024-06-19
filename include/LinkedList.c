@@ -76,9 +76,17 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
         while (list->current->prev != NULL) {
             LinkedListSize_tPrev(list);
             free(list->current->next);
-        }    
+        }
     }
+    list->size = 0;
     free(list->current);
+}
+
+void LinkedListSize_tUnlink(LinkedListSize_t *list) {
+    list->size = 0;
+    list->current = NULL;
+    list->first = NULL;
+    list->last = NULL;
 }
 
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
@@ -101,6 +109,14 @@ ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
 ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) {
     ArraySize_t output = LinkedListSize_tToArray(list);
     LinkedListSize_tFree(list);
+    return output;
+}
+
+LinkedListSize_t LinkedListSize_tFromArray(ArraySize_t *array) {
+    LinkedListSize_t output = LinkedListSize_tNew();
+    for (size_t i = 0; i < array->size; i++) {
+        LinkedListSize_tAppend(&output, array->array[i]);
+    }
     return output;
 }
 
@@ -200,7 +216,15 @@ void LinkedListVector3Size_tFree(LinkedListVector3Size_t *list) {
             free(list->current->next);
         }    
     }
+    list->size = 0;
     free(list->current);
+}
+
+void LinkedListVector3Size_tUnlink(LinkedListSize_t *list) {
+    list->size = 0;
+    list->current = NULL;
+    list->first = NULL;
+    list->last = NULL;
 }
 
 ArraySize_t LinkedListVector3Size_tToArray(LinkedListVector3Size_t *list) {

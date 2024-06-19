@@ -39,9 +39,13 @@ void LinkedListSize_tAppendList(LinkedListSize_t *a, LinkedListSize_t *b) ;
 
 void LinkedListSize_tFree(LinkedListSize_t *list) ;
 
+void LinkedListSize_tUnlink(LinkedListSize_t *list) ;
+
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) ;
 
 ArraySize_t LinkedListSize_tToArrayAndFree(LinkedListSize_t *list) ;
+
+LinkedListSize_t LinkedListSize_tFromArray(ArraySize_t *array) ;
 
 void LinkedListSize_tAddByCriteria(LinkedListSize_t *list, ArraySize_t *array, int (*criteria_function)(size_t)) ;
 
@@ -79,6 +83,8 @@ void LinkedListVector3Size_tRemove(LinkedListVector3Size_t* list, NodeVector3Siz
 void LinkedListVector3Size_tAppendList(LinkedListVector3Size_t *a, LinkedListVector3Size_t *b) ;
 
 void LinkedListVector3Size_tFree(LinkedListVector3Size_t *list) ;
+
+void LinkedListVector3Size_tUnlink(LinkedListSize_t *list) ;
 
 ArraySize_t LinkedListVector3Size_tToArray(LinkedListVector3Size_t *list) ;
 

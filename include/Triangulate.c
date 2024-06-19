@@ -230,11 +230,12 @@ ArraySize_t UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
         section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
         ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
         rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
-        RemoveFullIndices(&working_indices_list, &rim_indices_array);
+        LinkedListSize_tFree(&working_indices_list);
+        working_indices_list = LinkedListSize_tFromArray(&rim_indices_array);
 
         //Free lists & arrays
         //These functions empty the containers, but don't free the varables themselves
-        LinkedListSize_tFree(&section_indices_list);
+        LinkedListSize_tUnlink(&section_indices_list);
         ArrayVector3Free(&section_points_3d);
         ArrayVector2Free(&testing_points_2d);
         ArraySize_tFree(&working_indices_array);
@@ -274,30 +275,33 @@ ArraySize_t LowerSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
         up_z = cosf(low_angle);
 
         AddIndicesInSegment(&section_indices_list, points, low_z, up_z);
+        if (i==n_steps-1) {
+            LinkedListSize_t equatorial_points_list = LinkedListSize_tFromArray(equatorial_points);
+            LinkedListSize_tAppendList(&section_indices_list, &equatorial_points_list);
+        }
         RegisterTestingIndices(&section_indices_list, &global_to_testing_indices, &testing_to_global_indices, &registered_testing_points);
         section_points_3d = IndicesListToArrayVector3(&section_indices_list, points);
         ArrayVector3AppendArrays(&testing_points_3d, &section_points_3d);
         LinkedListSize_tAppendList(&working_indices_list, &section_indices_list);
         working_indices_array = LinkedListSize_tToArray(&working_indices_list);
         working_points_3d = IndicesListToArrayVector3(&working_indices_list, points);
-        if (i==n_steps-1){
-            ArrayVector3 equatorial_points_3d = IndicesArrayToArrayVector3(equatorial_points, points);
-            ArrayVector3AppendArrays(&testing_points_3d, &equatorial_points_3d);
-            ArrayVector3AppendArrays(&working_points_3d, &equatorial_points_3d);
-            ArraySize_tAppendArrays(&working_indices_array, equatorial_points);
-        }
+        // if (i==n_steps-1){
+        //     ArrayVector3 equatorial_points_3d = IndicesArrayToArrayVector3(equatorial_points, points);
+        //     ArrayVector3AppendArrays(&testing_points_3d, &equatorial_points_3d);
+        //     ArrayVector3AppendArrays(&working_points_3d, &equatorial_points_3d);
+        //     ArraySize_tAppendArrays(&working_indices_array, equatorial_points);
+        // }
         testing_points_2d = SterographicProjectArrayVector2(&testing_points_3d);
         working_points_2d = SterographicProjectArrayVector2(&working_points_3d);
         section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
         ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
-        if (i != n_steps-1){
-            rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
-            RemoveFullIndices(&working_indices_list, &rim_indices_array);
-        }
+        rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
+        LinkedListSize_tFree(&working_indices_list);
+        working_indices_list = LinkedListSize_tFromArray(&rim_indices_array);
 
         //Free lists & arrays
         //These functions empty the containers, but don't free the varables themselves
-        LinkedListSize_tFree(&section_indices_list);
+        LinkedListSize_tUnlink(&section_indices_list);
         ArrayVector3Free(&section_points_3d);
         ArrayVector2Free(&testing_points_2d);
         ArraySize_tFree(&working_indices_array);
