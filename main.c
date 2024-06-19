@@ -47,7 +47,7 @@ Vector3* IcosahedronVertices() {
 
 int main() {
     // Vector3 *points = IcosahedronVertices();
-    const size_t vertices = 64;
+    const size_t vertices = 1024;
     Vector3 *points = FibonacciVertices(vertices);
     
     ArraySize_t indices = SphereTriangulate(points, vertices);
