@@ -46,13 +46,13 @@ Vector3* IcosahedronVertices() {
 }
 
 int main() {
-    Vector3 *points = IcosahedronVertices();
-    const size_t vertices = 12;
-    // Vector3 *points = FibonacciVertices(vertices);
+    // Vector3 *points = IcosahedronVertices();
+    const size_t vertices = 64;
+    Vector3 *points = FibonacciVertices(vertices);
     
-    ArraySize_t indices = SphereTriangulate(points, vertices, 1);
+    ArraySize_t indices = SphereTriangulate(points, vertices, 2);
 
-    ArraySize_tPrint(&indices);
-    printf("%u\n",indices.size);
+    // ArraySize_tPrint(&indices);
+    printf("Total size: %u\n",indices.size);
     return 0;
 }
