@@ -331,8 +331,8 @@ ArraySize_t SphereTriangulate (Vector3 *points, size_t n_points, size_t n_steps)
     lower_indices = LowerSphereTriangulate(&points_array, n_steps, &equatorial_points);
 
 //
-    printf("upper size:%u\n",indices.size);
-    printf("lower size:%u\n",lower_indices.size);
+    printf("upper size:%lu\n",indices.size);
+    printf("lower size:%lu\n",lower_indices.size);
 //
 
     ArraySize_tAppendArrays(&indices, &lower_indices);
