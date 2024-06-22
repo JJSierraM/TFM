@@ -36,7 +36,7 @@ inline int PointInCircle (Vector2 a, Vector2 b, Vector2 c, Vector2 p) {
         c.x-p.x,    c.y-p.y,    powf(c.x-p.x,2)+powf(c.y-p.y,2),
     };
     float output = Matrix3x3Determinant(matrix) * RightHand(a, b, c);
-    return output > 0.0001;
+    return output > 0;
 }
 
 inline Vector3Size_t NextCombination (Vector3Size_t *prev_combination) {
