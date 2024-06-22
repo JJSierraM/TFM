@@ -45,12 +45,13 @@ Vector3* IcosahedronVertices() {
     return vertices;
 }
 
-int main() {
+//arg 1 = vertices ; arg 2 = n_steps
+int main(int argc, char *argv[]) {
     // Vector3 *points = IcosahedronVertices();
-    const size_t vertices = 1024;
+    const size_t vertices = 1024*2;
     Vector3 *points = FibonacciVertices(vertices);
     
-    ArraySize_t indices = SphereTriangulate(points, vertices, 1);
+    ArraySize_t indices = SphereTriangulate(points, vertices, 4);
 
     // ArraySize_tPrint(&indices);
     printf("Total size: %u\n",indices.size);

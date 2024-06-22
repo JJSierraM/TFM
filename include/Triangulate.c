@@ -40,7 +40,7 @@ ArraySize_t Triangulation2D (ArrayVector2 *working_points, ArrayVector2 *testing
     return LinkedListVector3Size_tToArrayAndFree(&indices);
 }
 
-LinkedListVector3Size_t Triangulation2DParallel (ArrayVector2 *working_points, ArrayVector2 *testing_points, ArraySize_t *working_indices) {
+ArraySize_t Triangulation2DParallel (ArrayVector2 *working_points, ArrayVector2 *testing_points, ArraySize_t *working_indices) {
     Vector3Size_t combination = (Vector3Size_t) {2, 1, 0};
     LinkedListVector3Size_t indices = LinkedListVector3Size_tNew();
     Vector2 a, b, c, d;
@@ -86,7 +86,7 @@ LinkedListVector3Size_t Triangulation2DParallel (ArrayVector2 *working_points, A
             current_item += n_proc;
         }
     }
-    return indices;
+    return LinkedListVector3Size_tToArrayAndFree(&indices);
 }
 
 ArraySize_t GetRimPoints (ArrayVector2 *testing_points, ArraySize_t *indices, ArraySize_t* global_to_testing_indices, ArraySize_t *testing_to_global_indices) {
@@ -213,10 +213,13 @@ ArraySize_t UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
 
     for (size_t i = 0; i < n_steps; i++) {
         float low_angle, up_angle, low_z, up_z;
-        low_angle = (i)*PI/2/n_steps;
-        up_angle = (i+1)*PI/2/n_steps;
-        low_z = cosf(up_angle);
-        up_z = cosf(low_angle);
+        // low_angle = (i)*PI/2/n_steps;
+        // up_angle = (i+1)*PI/2/n_steps;
+        // low_z = cosf(up_angle);
+        // up_z = cosf(low_angle);
+
+        low_z = 1.0 - 1.0/n_steps * (i+1);
+        up_z = 1.0 - 1.0/n_steps * (i);
 
         AddIndicesInSegment(&section_indices_list, points, low_z, up_z);
         RegisterTestingIndices(&section_indices_list, &global_to_testing_indices, &testing_to_global_indices, &registered_testing_points);
@@ -227,7 +230,7 @@ ArraySize_t UpperSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
         working_indices_array = LinkedListSize_tToArray(&working_indices_list);
         working_points_3d = IndicesListToArrayVector3(&working_indices_list, points);
         working_points_2d = SterographicProjectInvertedArrayVector2(&working_points_3d);
-        section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
+        section_final_indices = Triangulation2DParallel(&working_points_2d, &testing_points_2d, &working_indices_array);
         ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
         rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
         LinkedListSize_tFree(&working_indices_list);
@@ -270,9 +273,12 @@ ArraySize_t LowerSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
     for (size_t i = 0; i < n_steps; i++) {
         float low_angle, up_angle, low_z, up_z;
         low_angle = PI - (i+1)  *PI/2/n_steps;   //Now it starts at 180 deg and goes down to 90 deg
-        up_angle =  PI - (i)*PI/2/n_steps;
-        low_z = cosf(up_angle);
-        up_z = cosf(low_angle);
+        // up_angle =  PI - (i)*PI/2/n_steps;
+        // low_z = cosf(up_angle);
+        // up_z = cosf(low_angle);
+
+        low_z = -1.0 + 1.0/n_steps * (i);
+        up_z =  -1.0 + 1.0/n_steps * (i+1);
 
         AddIndicesInSegment(&section_indices_list, points, low_z, up_z);
         if (i==n_steps-1) {
@@ -293,7 +299,7 @@ ArraySize_t LowerSphereTriangulate (ArrayVector3 *points, size_t n_steps, ArrayS
         // }
         testing_points_2d = SterographicProjectArrayVector2(&testing_points_3d);
         working_points_2d = SterographicProjectArrayVector2(&working_points_3d);
-        section_final_indices = Triangulation2D(&working_points_2d, &testing_points_2d, &working_indices_array);
+        section_final_indices = Triangulation2DParallel(&working_points_2d, &testing_points_2d, &working_indices_array);
         ArraySize_tAppendArrays(&final_indices_array, &section_final_indices);
         rim_indices_array = GetRimPoints(&testing_points_2d, &final_indices_array, &global_to_testing_indices, &testing_to_global_indices);
         LinkedListSize_tFree(&working_indices_list);

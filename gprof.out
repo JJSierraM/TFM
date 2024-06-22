@@ -1,0 +1,535 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 68.08    280.52   280.52 4239351907     0.00     0.00  Matrix3x3Determinant
+ 18.10    355.10    74.57 4239351907     0.00     0.00  PointInCircle
+  4.45    373.45    18.36 8654140896     0.00     0.00  Vector2Sub
+  2.52    383.83    10.38 4239351907     0.00     0.00  RightHand
+  2.04    392.23     8.39        8     1.05    50.19  Triangulation2D
+  1.48    398.32     6.10                             _init
+  1.39    404.06     5.73 4327063301     0.00     0.00  Vector2CrossProduct
+  0.70    406.95     2.90 87711402     0.00     0.00  nCr
+  0.31    408.25     1.29                             Matrix4x4SetRow
+  0.31    409.51     1.27                             Vector2SubEquals
+  0.30    410.74     1.23                             Vector2AddEquals
+  0.16    411.40     0.66    14107     0.00     0.00  Vector2DotProduct
+  0.11    411.87     0.47 87711394     0.00     0.00  NextCombination
+  0.05    412.06     0.19 87711394     0.00     0.00  Vector3Size_tAdd
+  0.00    412.07     0.01        1     0.01   402.18  SphereTriangulate
+  0.00    412.07     0.00    28830     0.00     0.00  Vector2Norm
+  0.00    412.07     0.00    14052     0.00     0.00  Vector2AngleBetween
+  0.00    412.07     0.00    13660     0.00     0.00  Vector2Angle
+  0.00    412.07     0.00    11292     0.00     0.00  LinkedListSize_tNext
+  0.00    412.07     0.00     4348     0.00     0.00  LinkedListSize_tAppend
+  0.00    412.07     0.00     4247     0.00     0.00  LinkedListVector3Size_tAppend
+  0.00    412.07     0.00     4239     0.00     0.00  LinkedListVector3Size_tNext
+  0.00    412.07     0.00     4239     0.00     0.00  LinkedListVector3Size_tPrev
+  0.00    412.07     0.00     3046     0.00     0.00  LinkedListSize_tPrev
+  0.00    412.07     0.00     2048     0.00     0.00  Sphr2Cart
+  0.00    412.07     0.00      867     0.00     0.00  SterographicProject
+  0.00    412.07     0.00      427     0.00     0.00  SterographicProjectInverted
+  0.00    412.07     0.00       40     0.00     0.00  LinkedListSize_tGoFirst
+  0.00    412.07     0.00       28     0.00     0.00  ArraySize_tNew
+  0.00    412.07     0.00       21     0.00     0.00  ArraySize_tFree
+  0.00    412.07     0.00       21     0.00     0.00  LinkedListSize_tNew
+  0.00    412.07     0.00       19     0.00     0.00  ArrayVector3New
+  0.00    412.07     0.00       17     0.00     0.00  ArrayVector3Free
+  0.00    412.07     0.00       16     0.00     0.00  ArrayVector2Free
+  0.00    412.07     0.00       16     0.00     0.00  ArrayVector2New
+  0.00    412.07     0.00       16     0.00     0.00  IndicesListToArrayVector3
+  0.00    412.07     0.00       16     0.00     0.00  LinkedListSize_tFree
+  0.00    412.07     0.00       16     0.00     0.00  LinkedListSize_tGoLast
+  0.00    412.07     0.00       16     0.00     0.00  LinkedListSize_tToArray
+  0.00    412.07     0.00        9     0.00     0.00  ArraySize_tAppendArrays
+  0.00    412.07     0.00        9     0.00     0.00  LinkedListSize_tAppendList
+  0.00    412.07     0.00        9     0.00     0.00  LinkedListSize_tFromArray
+  0.00    412.07     0.00        8     0.00     0.00  AddIndicesInSegment
+  0.00    412.07     0.00        8     0.00     0.00  ArrayVector3AppendArrays
+  0.00    412.07     0.00        8     0.00     0.00  GetRimPoints
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListSize_tToArrayAndFree
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListSize_tUnlink
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListVector3Size_tFree
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListVector3Size_tGoFirst
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListVector3Size_tGoLast
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListVector3Size_tNew
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListVector3Size_tToArray
+  0.00    412.07     0.00        8     0.00     0.00  LinkedListVector3Size_tToArrayAndFree
+  0.00    412.07     0.00        8     0.00     0.00  RegisterTestingIndices
+  0.00    412.07     0.00        8     0.00     0.00  SterographicProjectArrayVector2
+  0.00    412.07     0.00        8     0.00     0.00  SterographicProjectInvertedArrayVector2
+  0.00    412.07     0.00        2     0.00     0.00  ArraySize_tZeros
+  0.00    412.07     0.00        1     0.00     0.00  FibonacciVertices
+  0.00    412.07     0.00        1     0.00   200.75  LowerSphereTriangulate
+  0.00    412.07     0.00        1     0.00   200.75  UpperSphereTriangulate
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2024 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.00% of 412.07 seconds
+
+index % time    self  children    called     name
+                0.01  402.17       1/1           main [2]
+[1]     97.6    0.01  402.17       1         SphereTriangulate [1]
+                0.00  200.75       1/1           UpperSphereTriangulate [7]
+                0.00  200.75       1/1           LowerSphereTriangulate [6]
+                0.00    0.66   13660/13660       Vector2Angle [19]
+                0.00    0.00   14294/8654140896     Vector2Sub [9]
+                0.00    0.00    2048/4348        LinkedListSize_tAppend [23]
+                0.00    0.00       2/21          ArraySize_tFree [33]
+                0.00    0.00       1/19          ArrayVector3New [35]
+                0.00    0.00       1/9           ArraySize_tAppendArrays [43]
+                0.00    0.00       1/17          ArrayVector3Free [36]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]     97.6    0.00  402.18                 main [2]
+                0.01  402.17       1/1           SphereTriangulate [1]
+                0.00    0.00       1/1           FibonacciVertices [61]
+-----------------------------------------------
+                4.20  196.56       4/8           UpperSphereTriangulate [7]
+                4.20  196.56       4/8           LowerSphereTriangulate [6]
+[3]     97.4    8.39  393.12       8         Triangulation2D [3]
+               74.57  314.51 4239351907/4239351907     PointInCircle [4]
+                2.90    0.00 87711402/87711402     nCr [12]
+                0.47    0.19 87711394/87711394     NextCombination [16]
+                0.37    0.00 175422788/8654140896     Vector2Sub [9]
+                0.12    0.00 87711394/4327063301     Vector2CrossProduct [11]
+                0.00    0.00    4247/4247        LinkedListVector3Size_tAppend [24]
+                0.00    0.00       8/8           LinkedListVector3Size_tNew [54]
+                0.00    0.00       8/8           LinkedListVector3Size_tToArrayAndFree [56]
+-----------------------------------------------
+               74.57  314.51 4239351907/4239351907     Triangulation2D [3]
+[4]     94.4   74.57  314.51 4239351907         PointInCircle [4]
+              280.52    0.00 4239351907/4239351907     Matrix3x3Determinant [5]
+               10.38   23.60 4239351907/4239351907     RightHand [8]
+-----------------------------------------------
+              280.52    0.00 4239351907/4239351907     PointInCircle [4]
+[5]     68.1  280.52    0.00 4239351907         Matrix3x3Determinant [5]
+-----------------------------------------------
+                0.00  200.75       1/1           SphereTriangulate [1]
+[6]     48.7    0.00  200.75       1         LowerSphereTriangulate [6]
+                4.20  196.56       4/8           Triangulation2D [3]
+                0.00    0.00       8/16          IndicesListToArrayVector3 [39]
+                0.00    0.00       8/8           SterographicProjectArrayVector2 [58]
+                0.00    0.00       8/17          ArrayVector3Free [36]
+                0.00    0.00       8/21          ArraySize_tFree [33]
+                0.00    0.00       8/16          ArrayVector2Free [37]
+                0.00    0.00       5/9           LinkedListSize_tFromArray [45]
+                0.00    0.00       5/9           LinkedListSize_tAppendList [44]
+                0.00    0.00       4/8           AddIndicesInSegment [46]
+                0.00    0.00       4/8           RegisterTestingIndices [57]
+                0.00    0.00       4/8           ArrayVector3AppendArrays [47]
+                0.00    0.00       4/16          LinkedListSize_tToArray [42]
+                0.00    0.00       4/9           ArraySize_tAppendArrays [43]
+                0.00    0.00       4/8           GetRimPoints [48]
+                0.00    0.00       4/16          LinkedListSize_tFree [40]
+                0.00    0.00       4/8           LinkedListSize_tUnlink [50]
+                0.00    0.00       2/21          LinkedListSize_tNew [34]
+                0.00    0.00       2/28          ArraySize_tNew [32]
+                0.00    0.00       1/2           ArraySize_tZeros [60]
+                0.00    0.00       1/19          ArrayVector3New [35]
+-----------------------------------------------
+                0.00  200.75       1/1           SphereTriangulate [1]
+[7]     48.7    0.00  200.75       1         UpperSphereTriangulate [7]
+                4.20  196.56       4/8           Triangulation2D [3]
+                0.00    0.00      11/21          ArraySize_tFree [33]
+                0.00    0.00       8/16          IndicesListToArrayVector3 [39]
+                0.00    0.00       8/8           SterographicProjectInvertedArrayVector2 [59]
+                0.00    0.00       8/17          ArrayVector3Free [36]
+                0.00    0.00       8/16          ArrayVector2Free [37]
+                0.00    0.00       4/8           AddIndicesInSegment [46]
+                0.00    0.00       4/8           RegisterTestingIndices [57]
+                0.00    0.00       4/8           ArrayVector3AppendArrays [47]
+                0.00    0.00       4/16          LinkedListSize_tToArray [42]
+                0.00    0.00       4/9           LinkedListSize_tAppendList [44]
+                0.00    0.00       4/9           ArraySize_tAppendArrays [43]
+                0.00    0.00       4/8           GetRimPoints [48]
+                0.00    0.00       4/16          LinkedListSize_tFree [40]
+                0.00    0.00       4/9           LinkedListSize_tFromArray [45]
+                0.00    0.00       4/8           LinkedListSize_tUnlink [50]
+                0.00    0.00       2/21          LinkedListSize_tNew [34]
+                0.00    0.00       2/28          ArraySize_tNew [32]
+                0.00    0.00       1/2           ArraySize_tZeros [60]
+                0.00    0.00       1/19          ArrayVector3New [35]
+-----------------------------------------------
+               10.38   23.60 4239351907/4239351907     PointInCircle [4]
+[8]      8.2   10.38   23.60 4239351907         RightHand [8]
+               17.98    0.00 8478703814/8654140896     Vector2Sub [9]
+                5.61    0.00 4239351907/4327063301     Vector2CrossProduct [11]
+-----------------------------------------------
+                0.00    0.00   14294/8654140896     SphereTriangulate [1]
+                0.37    0.00 175422788/8654140896     Triangulation2D [3]
+               17.98    0.00 8478703814/8654140896     RightHand [8]
+[9]      4.5   18.36    0.00 8654140896         Vector2Sub [9]
+-----------------------------------------------
+                                                 <spontaneous>
+[10]     1.5    6.10    0.00                 _init [10]
+-----------------------------------------------
+                0.12    0.00 87711394/4327063301     Triangulation2D [3]
+                5.61    0.00 4239351907/4327063301     RightHand [8]
+[11]     1.4    5.73    0.00 4327063301         Vector2CrossProduct [11]
+-----------------------------------------------
+                2.90    0.00 87711402/87711402     Triangulation2D [3]
+[12]     0.7    2.90    0.00 87711402         nCr [12]
+-----------------------------------------------
+                                                 <spontaneous>
+[13]     0.3    1.29    0.00                 Matrix4x4SetRow [13]
+-----------------------------------------------
+                                                 <spontaneous>
+[14]     0.3    1.27    0.00                 Vector2SubEquals [14]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     0.3    1.23    0.00                 Vector2AddEquals [15]
+-----------------------------------------------
+                0.47    0.19 87711394/87711394     Triangulation2D [3]
+[16]     0.2    0.47    0.19 87711394         NextCombination [16]
+                0.19    0.00 87711394/87711394     Vector3Size_tAdd [20]
+-----------------------------------------------
+                0.66    0.00   14107/14107       Vector2AngleBetween [18]
+[17]     0.2    0.66    0.00   14107         Vector2DotProduct [17]
+-----------------------------------------------
+                0.00    0.66   14052/14052       Vector2Angle [19]
+[18]     0.2    0.00    0.66   14052         Vector2AngleBetween [18]
+                0.66    0.00   14107/14107       Vector2DotProduct [17]
+                0.00    0.00   28830/28830       Vector2Norm [21]
+-----------------------------------------------
+                0.00    0.66   13660/13660       SphereTriangulate [1]
+[19]     0.2    0.00    0.66   13660         Vector2Angle [19]
+                0.00    0.66   14052/14052       Vector2AngleBetween [18]
+-----------------------------------------------
+                0.19    0.00 87711394/87711394     NextCombination [16]
+[20]     0.0    0.19    0.00 87711394         Vector3Size_tAdd [20]
+-----------------------------------------------
+                0.00    0.00   28830/28830       Vector2AngleBetween [18]
+[21]     0.0    0.00    0.00   28830         Vector2Norm [21]
+-----------------------------------------------
+                0.00    0.00    2288/11292       RegisterTestingIndices [57]
+                0.00    0.00    3865/11292       LinkedListSize_tToArray [42]
+                0.00    0.00    5139/11292       IndicesListToArrayVector3 [39]
+[22]     0.0    0.00    0.00   11292         LinkedListSize_tNext [22]
+-----------------------------------------------
+                0.00    0.00    1030/4348        GetRimPoints [48]
+                0.00    0.00    1270/4348        LinkedListSize_tFromArray [45]
+                0.00    0.00    2048/4348        SphereTriangulate [1]
+[23]     0.0    0.00    0.00    4348         LinkedListSize_tAppend [23]
+-----------------------------------------------
+                0.00    0.00    4247/4247        Triangulation2D [3]
+[24]     0.0    0.00    0.00    4247         LinkedListVector3Size_tAppend [24]
+-----------------------------------------------
+                0.00    0.00    4239/4239        LinkedListVector3Size_tToArray [55]
+[25]     0.0    0.00    0.00    4239         LinkedListVector3Size_tNext [25]
+-----------------------------------------------
+                0.00    0.00    4239/4239        LinkedListVector3Size_tFree [51]
+[26]     0.0    0.00    0.00    4239         LinkedListVector3Size_tPrev [26]
+-----------------------------------------------
+                0.00    0.00    3046/3046        LinkedListSize_tFree [40]
+[27]     0.0    0.00    0.00    3046         LinkedListSize_tPrev [27]
+-----------------------------------------------
+                0.00    0.00    2048/2048        FibonacciVertices [61]
+[28]     0.0    0.00    0.00    2048         Sphr2Cart [28]
+-----------------------------------------------
+                0.00    0.00     867/867         SterographicProjectInvertedArrayVector2 [59]
+[29]     0.0    0.00    0.00     867         SterographicProject [29]
+-----------------------------------------------
+                0.00    0.00     427/427         SterographicProjectInvertedArrayVector2 [59]
+[30]     0.0    0.00    0.00     427         SterographicProjectInverted [30]
+-----------------------------------------------
+                0.00    0.00       8/40          RegisterTestingIndices [57]
+                0.00    0.00      16/40          LinkedListSize_tToArray [42]
+                0.00    0.00      16/40          IndicesListToArrayVector3 [39]
+[31]     0.0    0.00    0.00      40         LinkedListSize_tGoFirst [31]
+-----------------------------------------------
+                0.00    0.00       2/28          UpperSphereTriangulate [7]
+                0.00    0.00       2/28          LowerSphereTriangulate [6]
+                0.00    0.00       8/28          LinkedListVector3Size_tToArray [55]
+                0.00    0.00      16/28          LinkedListSize_tToArray [42]
+[32]     0.0    0.00    0.00      28         ArraySize_tNew [32]
+-----------------------------------------------
+                0.00    0.00       2/21          SphereTriangulate [1]
+                0.00    0.00       8/21          LowerSphereTriangulate [6]
+                0.00    0.00      11/21          UpperSphereTriangulate [7]
+[33]     0.0    0.00    0.00      21         ArraySize_tFree [33]
+-----------------------------------------------
+                0.00    0.00       2/21          UpperSphereTriangulate [7]
+                0.00    0.00       2/21          LowerSphereTriangulate [6]
+                0.00    0.00       8/21          GetRimPoints [48]
+                0.00    0.00       9/21          LinkedListSize_tFromArray [45]
+[34]     0.0    0.00    0.00      21         LinkedListSize_tNew [34]
+-----------------------------------------------
+                0.00    0.00       1/19          UpperSphereTriangulate [7]
+                0.00    0.00       1/19          LowerSphereTriangulate [6]
+                0.00    0.00       1/19          SphereTriangulate [1]
+                0.00    0.00      16/19          IndicesListToArrayVector3 [39]
+[35]     0.0    0.00    0.00      19         ArrayVector3New [35]
+-----------------------------------------------
+                0.00    0.00       1/17          SphereTriangulate [1]
+                0.00    0.00       8/17          UpperSphereTriangulate [7]
+                0.00    0.00       8/17          LowerSphereTriangulate [6]
+[36]     0.0    0.00    0.00      17         ArrayVector3Free [36]
+-----------------------------------------------
+                0.00    0.00       8/16          UpperSphereTriangulate [7]
+                0.00    0.00       8/16          LowerSphereTriangulate [6]
+[37]     0.0    0.00    0.00      16         ArrayVector2Free [37]
+-----------------------------------------------
+                0.00    0.00       8/16          SterographicProjectArrayVector2 [58]
+                0.00    0.00       8/16          SterographicProjectInvertedArrayVector2 [59]
+[38]     0.0    0.00    0.00      16         ArrayVector2New [38]
+-----------------------------------------------
+                0.00    0.00       8/16          UpperSphereTriangulate [7]
+                0.00    0.00       8/16          LowerSphereTriangulate [6]
+[39]     0.0    0.00    0.00      16         IndicesListToArrayVector3 [39]
+                0.00    0.00    5139/11292       LinkedListSize_tNext [22]
+                0.00    0.00      16/19          ArrayVector3New [35]
+                0.00    0.00      16/40          LinkedListSize_tGoFirst [31]
+-----------------------------------------------
+                0.00    0.00       4/16          UpperSphereTriangulate [7]
+                0.00    0.00       4/16          LowerSphereTriangulate [6]
+                0.00    0.00       8/16          LinkedListSize_tToArrayAndFree [49]
+[40]     0.0    0.00    0.00      16         LinkedListSize_tFree [40]
+                0.00    0.00    3046/3046        LinkedListSize_tPrev [27]
+                0.00    0.00      16/16          LinkedListSize_tGoLast [41]
+-----------------------------------------------
+                0.00    0.00      16/16          LinkedListSize_tFree [40]
+[41]     0.0    0.00    0.00      16         LinkedListSize_tGoLast [41]
+-----------------------------------------------
+                0.00    0.00       4/16          UpperSphereTriangulate [7]
+                0.00    0.00       4/16          LowerSphereTriangulate [6]
+                0.00    0.00       8/16          LinkedListSize_tToArrayAndFree [49]
+[42]     0.0    0.00    0.00      16         LinkedListSize_tToArray [42]
+                0.00    0.00    3865/11292       LinkedListSize_tNext [22]
+                0.00    0.00      16/28          ArraySize_tNew [32]
+                0.00    0.00      16/40          LinkedListSize_tGoFirst [31]
+-----------------------------------------------
+                0.00    0.00       1/9           SphereTriangulate [1]
+                0.00    0.00       4/9           UpperSphereTriangulate [7]
+                0.00    0.00       4/9           LowerSphereTriangulate [6]
+[43]     0.0    0.00    0.00       9         ArraySize_tAppendArrays [43]
+-----------------------------------------------
+                0.00    0.00       4/9           UpperSphereTriangulate [7]
+                0.00    0.00       5/9           LowerSphereTriangulate [6]
+[44]     0.0    0.00    0.00       9         LinkedListSize_tAppendList [44]
+-----------------------------------------------
+                0.00    0.00       4/9           UpperSphereTriangulate [7]
+                0.00    0.00       5/9           LowerSphereTriangulate [6]
+[45]     0.0    0.00    0.00       9         LinkedListSize_tFromArray [45]
+                0.00    0.00    1270/4348        LinkedListSize_tAppend [23]
+                0.00    0.00       9/21          LinkedListSize_tNew [34]
+-----------------------------------------------
+                0.00    0.00       4/8           UpperSphereTriangulate [7]
+                0.00    0.00       4/8           LowerSphereTriangulate [6]
+[46]     0.0    0.00    0.00       8         AddIndicesInSegment [46]
+-----------------------------------------------
+                0.00    0.00       4/8           UpperSphereTriangulate [7]
+                0.00    0.00       4/8           LowerSphereTriangulate [6]
+[47]     0.0    0.00    0.00       8         ArrayVector3AppendArrays [47]
+-----------------------------------------------
+                0.00    0.00       4/8           UpperSphereTriangulate [7]
+                0.00    0.00       4/8           LowerSphereTriangulate [6]
+[48]     0.0    0.00    0.00       8         GetRimPoints [48]
+                0.00    0.00    1030/4348        LinkedListSize_tAppend [23]
+                0.00    0.00       8/21          LinkedListSize_tNew [34]
+                0.00    0.00       8/8           LinkedListSize_tToArrayAndFree [49]
+-----------------------------------------------
+                0.00    0.00       8/8           GetRimPoints [48]
+[49]     0.0    0.00    0.00       8         LinkedListSize_tToArrayAndFree [49]
+                0.00    0.00       8/16          LinkedListSize_tToArray [42]
+                0.00    0.00       8/16          LinkedListSize_tFree [40]
+-----------------------------------------------
+                0.00    0.00       4/8           UpperSphereTriangulate [7]
+                0.00    0.00       4/8           LowerSphereTriangulate [6]
+[50]     0.0    0.00    0.00       8         LinkedListSize_tUnlink [50]
+-----------------------------------------------
+                0.00    0.00       8/8           LinkedListVector3Size_tToArrayAndFree [56]
+[51]     0.0    0.00    0.00       8         LinkedListVector3Size_tFree [51]
+                0.00    0.00    4239/4239        LinkedListVector3Size_tPrev [26]
+                0.00    0.00       8/8           LinkedListVector3Size_tGoLast [53]
+-----------------------------------------------
+                0.00    0.00       8/8           LinkedListVector3Size_tToArray [55]
+[52]     0.0    0.00    0.00       8         LinkedListVector3Size_tGoFirst [52]
+-----------------------------------------------
+                0.00    0.00       8/8           LinkedListVector3Size_tFree [51]
+[53]     0.0    0.00    0.00       8         LinkedListVector3Size_tGoLast [53]
+-----------------------------------------------
+                0.00    0.00       8/8           Triangulation2D [3]
+[54]     0.0    0.00    0.00       8         LinkedListVector3Size_tNew [54]
+-----------------------------------------------
+                0.00    0.00       8/8           LinkedListVector3Size_tToArrayAndFree [56]
+[55]     0.0    0.00    0.00       8         LinkedListVector3Size_tToArray [55]
+                0.00    0.00    4239/4239        LinkedListVector3Size_tNext [25]
+                0.00    0.00       8/28          ArraySize_tNew [32]
+                0.00    0.00       8/8           LinkedListVector3Size_tGoFirst [52]
+-----------------------------------------------
+                0.00    0.00       8/8           Triangulation2D [3]
+[56]     0.0    0.00    0.00       8         LinkedListVector3Size_tToArrayAndFree [56]
+                0.00    0.00       8/8           LinkedListVector3Size_tToArray [55]
+                0.00    0.00       8/8           LinkedListVector3Size_tFree [51]
+-----------------------------------------------
+                0.00    0.00       4/8           UpperSphereTriangulate [7]
+                0.00    0.00       4/8           LowerSphereTriangulate [6]
+[57]     0.0    0.00    0.00       8         RegisterTestingIndices [57]
+                0.00    0.00    2288/11292       LinkedListSize_tNext [22]
+                0.00    0.00       8/40          LinkedListSize_tGoFirst [31]
+-----------------------------------------------
+                0.00    0.00       8/8           LowerSphereTriangulate [6]
+[58]     0.0    0.00    0.00       8         SterographicProjectArrayVector2 [58]
+                0.00    0.00       8/16          ArrayVector2New [38]
+-----------------------------------------------
+                0.00    0.00       8/8           UpperSphereTriangulate [7]
+[59]     0.0    0.00    0.00       8         SterographicProjectInvertedArrayVector2 [59]
+                0.00    0.00     867/867         SterographicProject [29]
+                0.00    0.00     427/427         SterographicProjectInverted [30]
+                0.00    0.00       8/16          ArrayVector2New [38]
+-----------------------------------------------
+                0.00    0.00       1/2           UpperSphereTriangulate [7]
+                0.00    0.00       1/2           LowerSphereTriangulate [6]
+[60]     0.0    0.00    0.00       2         ArraySize_tZeros [60]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[61]     0.0    0.00    0.00       1         FibonacciVertices [61]
+                0.00    0.00    2048/2048        Sphr2Cart [28]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2024 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [46] AddIndicesInSegment    [22] LinkedListSize_tNext    [8] RightHand
+  [43] ArraySize_tAppendArrays [27] LinkedListSize_tPrev   [1] SphereTriangulate
+  [33] ArraySize_tFree        [42] LinkedListSize_tToArray [28] Sphr2Cart
+  [32] ArraySize_tNew         [49] LinkedListSize_tToArrayAndFree [29] SterographicProject
+  [60] ArraySize_tZeros       [50] LinkedListSize_tUnlink [58] SterographicProjectArrayVector2
+  [37] ArrayVector2Free       [24] LinkedListVector3Size_tAppend [30] SterographicProjectInverted
+  [38] ArrayVector2New        [51] LinkedListVector3Size_tFree [59] SterographicProjectInvertedArrayVector2
+  [47] ArrayVector3AppendArrays [52] LinkedListVector3Size_tGoFirst [3] Triangulation2D
+  [36] ArrayVector3Free       [53] LinkedListVector3Size_tGoLast [7] UpperSphereTriangulate
+  [35] ArrayVector3New        [54] LinkedListVector3Size_tNew [15] Vector2AddEquals
+  [61] FibonacciVertices      [25] LinkedListVector3Size_tNext [19] Vector2Angle
+  [48] GetRimPoints           [26] LinkedListVector3Size_tPrev [18] Vector2AngleBetween
+  [39] IndicesListToArrayVector3 [55] LinkedListVector3Size_tToArray [11] Vector2CrossProduct
+  [23] LinkedListSize_tAppend [56] LinkedListVector3Size_tToArrayAndFree [17] Vector2DotProduct
+  [44] LinkedListSize_tAppendList [6] LowerSphereTriangulate [21] Vector2Norm
+  [40] LinkedListSize_tFree    [5] Matrix3x3Determinant    [9] Vector2Sub
+  [45] LinkedListSize_tFromArray [13] Matrix4x4SetRow     [14] Vector2SubEquals
+  [31] LinkedListSize_tGoFirst [16] NextCombination       [20] Vector3Size_tAdd
+  [41] LinkedListSize_tGoLast  [4] PointInCircle          [10] _init
+  [34] LinkedListSize_tNew    [57] RegisterTestingIndices [12] nCr
