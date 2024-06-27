@@ -26,7 +26,7 @@ Vector3 *FibonacciVertices(size_t n_points) {
 Vector3* IcosahedronVertices() {
     const float phi = 1.61803398875;
     Vector3 *vertices = (Vector3*) malloc(12 * sizeof(Vector3));
-    vertices[0] = (Vector3) {   0,   1, phi};
+	vertices[0] = (Vector3) {   0,   1, phi};
 	vertices[1] = (Vector3) {   0,  -1, phi};
 	vertices[2] = (Vector3) {   0,   1,-phi};
 	vertices[3] = (Vector3) {   0,  -1,-phi};
@@ -45,14 +45,17 @@ Vector3* IcosahedronVertices() {
     return vertices;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     // Vector3 *points = IcosahedronVertices();
-    const size_t vertices = 1024;
+    size_t vertices = 1024;
+    if (argc>1)
+    	vertices = atoi(argv[1]);
     Vector3 *points = FibonacciVertices(vertices);
-    
+    printf("n vertices: %lu\n", vertices);
+
     ArraySize_t indices = SphereTriangulate(points, vertices);
 
     // ArraySize_tPrint(&indices);
-    printf("%u\n",indices.size);
+    printf("%lu\n",indices.size);
     return 0;
 }
