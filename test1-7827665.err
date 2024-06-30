@@ -1,0 +1,21 @@
+
+real	0m0.043s
+user	0m0.041s
+sys	0m0.000s
+
+real	0m0.537s
+user	0m0.533s
+sys	0m0.001s
+
+real	0m7.740s
+user	0m7.724s
+sys	0m0.001s
+
+real	1m50.754s
+user	1m50.568s
+sys	0m0.000s
+
+real	27m52.264s
+user	27m49.575s
+sys	0m0.001s
+slurmstepd: error: *** JOB 7827665 ON ilk-133 CANCELLED AT 2024-06-29T19:17:29 DUE TO TIME LIMIT ***

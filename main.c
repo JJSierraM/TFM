@@ -13,6 +13,7 @@ Vector3 *FibonacciVertices(size_t n_points) {
     float x, y, theta, fi, theta_s, fi_s;
     float residue;
     Vector3 *output = (Vector3*) malloc(n_points * sizeof(Vector3));
+    #pragma omp parallel for private(x, y, theta, fi)
     for (size_t i = 0; i < n_points; i++) {
         x = modff(i/phi, &residue);
         y = 1.0 * i / (n_points);

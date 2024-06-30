@@ -66,7 +66,7 @@ void LinkedListSize_tFree(LinkedListSize_t *list) {
 }
 
 ArraySize_t LinkedListSize_tToArray(LinkedListSize_t *list) {
-    DEBUG_PRINTLN("Size of list: %ld", list->size)
+    // DEBUG_PRINTLN("Size of list: %ld", list->size)
     size_t lsize  = list->size;
     ArraySize_t output = ArraySize_tNew(lsize);
     if(lsize == 0){
@@ -153,7 +153,7 @@ void LinkedListVector3Size_tFree(LinkedListVector3Size_t *list) {
 }
 
 ArraySize_t LinkedListVector3Size_tToArray(LinkedListVector3Size_t *list) {
-    DEBUG_PRINTLN("Size of list: %ld", list->size)
+    // DEBUG_PRINTLN("Size of list: %ld", list->size)
     size_t lsize  = list->size;
     ArraySize_t output = ArraySize_tNew(3 * lsize);
     if(lsize == 0){

@@ -1,0 +1,5 @@
+1.000.000.000 combinaciones
+
+real    0m0.730s
+user    0m0.726s
+sys     0m0.001s

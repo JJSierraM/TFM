@@ -1,0 +1,33 @@
+
+real	0m0.005s
+user	0m0.000s
+sys	0m0.001s
+
+real	0m0.003s
+user	0m0.000s
+sys	0m0.001s
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.000s
+
+real	0m0.045s
+user	0m0.042s
+sys	0m0.001s
+
+real	0m0.575s
+user	0m0.571s
+sys	0m0.001s
+
+real	0m8.002s
+user	0m7.987s
+sys	0m0.001s
+
+real	1m58.013s
+user	1m57.841s
+sys	0m0.000s
+
+real	29m48.276s
+user	29m45.700s
+sys	0m0.001s
+slurmstepd: error: *** JOB 7826745 ON ilk-179 CANCELLED AT 2024-06-29T17:43:21 DUE TO TIME LIMIT ***

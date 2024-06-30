@@ -1,0 +1,181 @@
+Multiple threads no optimizations:
+Num points: 128, num threads: 2
+756
+
+real    0m0.023s
+user    0m0.042s
+sys     0m0.000s
+Num points: 256, num threads: 2
+1524
+
+real    0m0.275s
+user    0m0.544s
+sys     0m0.002s
+Num points: 512, num threads: 2
+3060
+
+real    0m3.786s
+user    0m7.548s
+sys     0m0.003s
+Num points: 1024, num threads: 2
+6132
+
+real    0m55.668s
+user    1m50.969s
+sys     0m0.002s
+Num points: 2048, num threads: 2
+12282
+
+real    13m57.646s
+user    27m51.705s
+sys     0m0.000s
+Num points: 128, num threads: 4
+756
+
+real    0m0.015s
+user    0m0.044s
+sys     0m0.000s
+Num points: 256, num threads: 4
+1524
+
+real    0m0.137s
+user    0m0.542s
+sys     0m0.000s
+Num points: 512, num threads: 4
+3060
+
+real    0m1.943s
+user    0m7.645s
+sys     0m0.001s
+Num points: 1024, num threads: 4
+6132
+
+real    0m27.789s
+user    1m50.870s
+sys     0m0.000s
+Num points: 2048, num threads: 4
+12282
+
+real    6m58.909s
+user    27m52.637s
+sys     0m0.000s
+Num points: 128, num threads: 8
+756
+
+real    0m0.012s
+user    0m0.052s
+sys     0m0.002s
+Num points: 256, num threads: 8
+1524
+
+real    0m0.071s
+user    0m0.550s
+sys     0m0.002s
+Num points: 512, num threads: 8
+3060
+
+real    0m0.954s
+user    0m7.601s
+sys     0m0.001s
+Num points: 1024, num threads: 8
+6132
+
+real    0m13.951s
+user    1m51.346s
+sys     0m0.001s
+Num points: 2048, num threads: 8
+12282
+
+real    3m30.013s
+user    27m56.447s
+sys     0m0.000s
+Num points: 128, num threads: 16
+756
+
+real    0m0.010s
+user    0m0.070s
+sys     0m0.002s
+Num points: 256, num threads: 16
+1524
+
+real    0m0.040s
+user    0m0.609s
+sys     0m0.000s
+Num points: 512, num threads: 16
+3060
+
+real    0m0.490s
+user    0m7.789s
+sys     0m0.001s
+Num points: 1024, num threads: 16
+6132
+
+real    0m7.083s
+user    1m53.055s
+sys     0m0.001s
+Num points: 2048, num threads: 16
+12282
+
+real    2m9.698s
+user    28m36.679s
+sys     0m0.002s
+Num points: 128, num threads: 24
+756
+
+real    0m0.014s
+user    0m0.206s
+sys     0m0.001s
+Num points: 256, num threads: 24
+1524
+
+real    0m0.029s
+user    0m0.635s
+sys     0m0.000s
+Num points: 512, num threads: 24
+3060
+
+real    0m0.335s
+user    0m7.978s
+sys     0m0.002s
+Num points: 1024, num threads: 24
+6132
+
+real    0m4.774s
+user    1m53.965s
+sys     0m0.002s
+Num points: 2048, num threads: 24
+12282
+
+real    1m11.540s
+user    28m15.918s
+sys     0m0.005s
+Num points: 128, num threads: 32
+756
+
+real    0m0.014s
+user    0m0.262s
+sys     0m0.001s
+Num points: 256, num threads: 32
+1524
+
+real    0m0.066s
+user    0m1.746s
+sys     0m0.002s
+Num points: 512, num threads: 32
+3060
+
+real    0m0.296s
+user    0m9.273s
+sys     0m0.002s
+Num points: 1024, num threads: 32
+6132
+
+real    0m3.836s
+user    2m1.166s
+sys     0m0.002s
+Num points: 2048, num threads: 32
+12282
+
+real    0m54.270s
+user    28m34.510s
+sys     0m0.004s

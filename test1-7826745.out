@@ -1,0 +1,76 @@
+slurmstepd: info: Setting TMPDIR to /scratch/7826745. Previous errors about TMPDIR can be discarded
+gcc -O3 -march=native include/Array.c include/Array.h include/LinkedList.c include/LinkedList.h include/Matrix.c include/Matrix.h include/Sterographic.c include/Sterographic.h include/Triangulate.c include/Triangulate.h include/Vector.c include/Vector.h  -lm main.c -o main -fopenmp
+Single thread no optimizations:
+Num points: 16
+n vertices: 16
+Size of list: 23 @ include/LinkedList.c:156
+69
+Size of list: 6 @ include/LinkedList.c:69
+Size of list: 6 @ include/LinkedList.c:156
+Size of list: 18 @ include/LinkedList.c:69
+18
+87
+Num points: 32
+n vertices: 32
+Size of list: 55 @ include/LinkedList.c:156
+165
+Size of list: 6 @ include/LinkedList.c:69
+Size of list: 5 @ include/LinkedList.c:156
+Size of list: 15 @ include/LinkedList.c:69
+15
+180
+Num points: 64
+n vertices: 64
+Size of list: 118 @ include/LinkedList.c:156
+354
+Size of list: 7 @ include/LinkedList.c:69
+Size of list: 7 @ include/LinkedList.c:156
+Size of list: 21 @ include/LinkedList.c:69
+21
+375
+Num points: 128
+n vertices: 128
+Size of list: 247 @ include/LinkedList.c:156
+741
+Size of list: 6 @ include/LinkedList.c:69
+Size of list: 5 @ include/LinkedList.c:156
+Size of list: 15 @ include/LinkedList.c:69
+15
+756
+Num points: 256
+n vertices: 256
+Size of list: 503 @ include/LinkedList.c:156
+1509
+Size of list: 6 @ include/LinkedList.c:69
+Size of list: 5 @ include/LinkedList.c:156
+Size of list: 15 @ include/LinkedList.c:69
+15
+1524
+Num points: 512
+n vertices: 512
+Size of list: 1016 @ include/LinkedList.c:156
+3048
+Size of list: 5 @ include/LinkedList.c:69
+Size of list: 4 @ include/LinkedList.c:156
+Size of list: 12 @ include/LinkedList.c:69
+12
+3060
+Num points: 1024
+n vertices: 1024
+Size of list: 2039 @ include/LinkedList.c:156
+6117
+Size of list: 6 @ include/LinkedList.c:69
+Size of list: 5 @ include/LinkedList.c:156
+Size of list: 15 @ include/LinkedList.c:69
+15
+6132
+Num points: 2048
+n vertices: 2048
+Size of list: 4086 @ include/LinkedList.c:156
+12258
+Size of list: 7 @ include/LinkedList.c:69
+Size of list: 8 @ include/LinkedList.c:156
+Size of list: 24 @ include/LinkedList.c:69
+24
+12282
+Num points: 4096
